@@ -1,64 +1,73 @@
-# dev-agent Project
+# OpenCode
 
-## Description
+## Beschreibung
 
-This project provides a framework for AI agent development and management. The system is designed to help developers create, manage, and deploy AI agents with consistent practices and tooling.
+OpenCode ist ein persönliches KI-gestütztes Coding-Assistenten-System mit Skills für verschiedene Aufgaben. Das Projekt nutzt OpenCode als KI-Agent und verwaltet Tasks über GitHub Projects.
 
-## Main Features
+## Aufgaben (Tasks)
 
-- Standardized AI agent configurations
-- Task and note management system  
-- Git workflow automation
-- Multi-agent compatibility layer
-- Project-specific rule enforcement
+Diese Liste wird automatisch vom AI-Agenten aktualisiert.
+Tasks spiegeln die Inhalte aus `.agent/tasks.md` wider.
 
-## Setup & Usage
+### High Priority
+- [ ] #17 GitHub Projects Expert Skill (Branch: ai-task-17, Status: todo)
+- [ ] #16 Documentation / Markdown Automation (Branch: ai-task-16, Status: todo)
+- [ ] #3 Skill-Creator entwickeln (Branch: ai-task-3, Status: todo)
+- [ ] #2 Skill-Finder entwickeln (Branch: ai-task-2, Status: todo)
+- [ ] #1 OpenCode Skill Basis entwickeln (Branch: ai-task-1, Status: todo)
 
-### Prerequisites
-- Node.js (v16 or higher)
-- npm (latest version)
+### Medium Priority
+- [ ] #15 Advanced Node.js Expertise (Branch: ai-task-15, Status: todo)
+- [ ] #14 DevOps / Deployment (Branch: ai-task-14, Status: todo)
+- [ ] #13 Security / Secure Coding (Branch: ai-task-13, Status: todo)
+- [ ] #12 API Design & Integration (Branch: ai-task-12, Status: todo)
+- [ ] #10 Testing & QA (Branch: ai-task-10, Status: todo)
+- [ ] #9 Git Expert Skill (Branch: ai-task-9, Status: todo)
+- [ ] #4 Skill-Checker entwickeln (Branch: ai-task-4, Status: todo)
 
-### Installation
-```bash
-npm install
-```
+### Low Priority
+- [ ] #11 Database Expertise (Branch: ai-task-11, Status: todo)
+- [ ] #8 SSH Expertise (Branch: ai-task-8, Status: todo)
+- [ ] #7 UX & UI Design (Branch: ai-task-7, Status: todo)
+- [ ] #6 HTML / CSS Expertise (Branch: ai-task-6, Status: todo)
+- [ ] #5 JavaScript / TypeScript Expertise (Branch: ai-task-5, Status: todo)
 
-### Development Workflow
-1. Create new feature branches from `main`
-2. Use conventional commit messages
-3. All changes must go through pull requests
-4. Follow the task management system in `.agent/tasks.md`
+> Hinweis: Neue Tasks werden automatisch hinzugefügt, bestehende Tasks aktualisiert, erledigte Tasks verschoben.
 
-## Architecture
+## Notes / Ideen
 
-### Project Structure
+Temporäre Ideen, Fragen oder Diskussionen, die noch keine Tasks sind.
 
-```text
-.agent/
-  core/              # Core agent components and workflows
-    prompts/         # Standard prompts for agents
-    workflows/       # Standard workflows
-  project/           # Project-specific configurations
-    architecture.md  # Technical architecture diagram
-    repo_rules.md    # Repository rules and conventions
-```
+- Idee: API Refactoring prüfen (Status: pending review)
+- Idee: CI/CD Pipeline einrichten (Status: pending)
+- Idee: Mehr Beispiele für Skills (Status: pending)
 
-## Contributing
+## Branches / Worktrees
 
-All contributions should follow the standard GitHub workflow:
-1. Fork the repository
-2. Create a feature branch
-3. Make changes
-4. Submit pull request
+Diese Übersicht wird vom Agenten gepflegt.
 
-## Version History
+- main → Standard-Branch
+- ai-task-* → Feature-Branches für einzelne Tasks
 
-This project follows semantic versioning. Current version: 0.1.0
+## Letzte Pull Requests
 
-## License
+Automatisches Update durch den Agenten.
 
-MIT License
+## Nutzung / Setup
 
-## Contact
+- Dependencies installieren:
+  ```bash
+  npm install
+  ```
 
-For questions about this project, contact the maintainers.
+- AI-Agent starten:
+  ```bash
+  npm run agent
+  ```
+
+- Tasks aktualisieren:
+  Der Agent liest GitHub Issues und aktualisiert tasks.md automatisch.
+
+---
+
+**Version:** 0.1.0 | **Letzte Aktualisierung:** 10.03.2026

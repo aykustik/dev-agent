@@ -1,7 +1,7 @@
 {
   "githubTokenEnv": "GH_TOKEN",
   "defaultBranchPrefix": "ai-task",
+  "projectID": null,
   "workspaceStartupScript": "npm install",
-  "autoUpdateTasks": true,
-  "projectID": "dev-agent"
+  "autoUpdateTasks": true
 }

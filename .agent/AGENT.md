@@ -1,40 +1,166 @@
-# AGENT.md
+# AI-Agent Instructions
 
-## Task Creation Rules
+Dies ist die zentrale Anleitung für AI-Agenten, die dieses Projekt autonom bearbeiten. 
+Ziel: Tasks abarbeiten, README.md aktualisieren, Git-Operationen durchführen und Tasks dokumentieren.
 
-All tasks must follow this structure:
-1. Clear title that describes the objective
-2. Detailed description with acceptance criteria
-3. Assignees if applicable
-4. Priority level (high, medium, low)
-5. Due date if applicable
+## Konfiguration
 
-## Notes Management
+### config.json Pflichtfelder
 
-- All operational notes are stored in this repository
-- Notes should be written in markdown format
-- Use clear titles and consistent formatting
-- Update notes regularly as processes evolve
+Prüfe `.agent/config.json` auf Vollständigkeit:
 
-## Git Operations
+```json
+{
+  "githubTokenEnv": "GH_TOKEN",
+  "defaultBranchPrefix": "ai-",
+  "projectID": null,
+  "workspaceStartupScript": "npm install",
+  "autoUpdateTasks": true,
+  "branchPattern": "feature/t-{number}-{slug}",
+  "worktreePath": "./worktrees",
+  "commitStyle": "conventional"
+}
+```
 
-- Commits should be descriptive and atomic
-- Follow conventional commit messages
-- Keep branches clean and focused
-- Merge only after code review and testing
+**Branch-Pattern Optionen:**
+| Pattern | Beispiel |
+|---------|----------|
+| `ai-{number}` | ai-17 |
+| `feature/t-{number}` | feature/t-17 |
+| `feature/t-{number}-{slug}` | feature/t-17-github-projects |
+| `tasks/{number}` | tasks/17 |
 
-## Task Filtering
+**Variablen:** `{number}` = Issue-Nummer, `{slug}` = URL-kodierter Titel
 
-Use labels and milestones to filter tasks effectively:
-- By priority (high/medium/low)
-- By component or feature area  
-- By assignee
-- By status (to do, in progress, done)
+### Startup Script
 
-## Multi-Agent Compatibility
+Vor jeder Task-Ausführung: `workspaceStartupScript` ausführen (z.B. `npm install`)
 
-All agents must be compatible with the system structure:
-- Share common data formats for communication
-- Follow standard naming conventions
-- Support interoperability with other agents
-- Maintain backward compatibility where possible
+---
+
+## Tasks
+
+- Lies `.agent/tasks.md` als Single Source of Truth.
+- Tasks enthalten:
+  - GitHub Issue: URL zum Issue
+  - Branch: Worktree / Feature-Branch (aus Pattern generiert)
+  - Status: todo | in-progress | done
+  - Priority: low | medium | high
+  - Notes: zusätzliche Informationen
+- Statusänderungen:
+  - Nach erfolgreichem Merge oder PR → Status auf done setzen
+  - Verschiebe erledigte Tasks optional in `completed.md`
+
+### Task-Erstellung filtern
+
+- Ein Task wird nur erstellt, wenn:
+  1. Es sich um eine konkrete, umsetzbare Arbeit handelt.
+  2. Die Aufgabe im Code, in Config, Branch oder Dokumentation resultiert.
+  3. Es eine klar definierte Ausgabe gibt (Code, Pull Request, README-Update, Issue-Update).
+- Keine Tasks erstellen für:
+  - Diskussionen im Chat
+  - Fragen, Ideen, Mein Tests oder Experimente ohne festen Outcome
+- Bei Unsungen
+  -icherheit:
+  - Task zunächst in `Notes` markieren, Status `pending review`
+
+### GitHub Issues synchronisieren
+
+Falls `gh auth` verfügbar:
+```bash
+gh issue list --repo <owner>/<repo> --state open
+```
+
+Neue Issues nur hinzufügen wenn nicht bereits als Task vorhanden (vergleiche Issue-URL).
+
+---
+
+## Notes (optional)
+
+- Temporäre Ideen, Fragen oder Diskussionen, die noch keine echte Task sind.
+- Können später manuell oder automatisch in Tasks konvertiert werden.
+- Beispielstruktur:
+  - Issue / Branch optional
+  - Status: pending review
+  - Beschreibung / Gedanken
+
+---
+
+## README.md Aktualisierung
+
+- README.md ist Dokumentation für Menschen.
+- Folgende Abschnitte werden gepflegt:
+  - Projektbeschreibung
+  - Übersicht aller Tasks mit Status (gruppiert nach Priority: high → medium → low)
+  - Branches / Worktrees
+  - Letzte Pull Requests
+  - Notes aus tasks.md
+  - Timestamp: `Last Updated: <DATUM>`
+- Tasks in README.md werden aus `.agent/tasks.md` übernommen.
+- Änderungen im Code / Tasks → README.md automatisch aktualisieren.
+
+---
+
+## Git-Operationen
+
+### 1. Branch erstellen
+
+```bash
+# Aus Branch-Pattern generieren
+# feature/t-{number}-{slug} → feature/t-17-github-projects
+git checkout -b feature/t-17-github-projects
+```
+
+### 2. Worktree erstellen (optional)
+
+```bash
+# Worktree für parallele Entwicklung
+git worktree add ./worktrees/feature-t-17-github-projects -b feature/t-17-github-projects
+```
+
+### 3. Commit
+
+**Standard:**
+```bash
+git add .
+git commit -m "AI-Agent: Update Task #17 / README"
+```
+
+**Conventional (falls commitStyle=conventional):**
+```bash
+git commit -m "feat: (#17) GitHub Projects Skill hinzugefügt"
+```
+
+### 4. Push & PR
+
+```bash
+git push -u origin feature/t-17-github-projects
+gh pr create --title "Task Updates" --body "## Änderungen ..."
+```
+
+### 5. Nach PR Merge
+
+- Task Status → done
+- README.md aktualisieren
+- Worktree optional löschen
+
+---
+
+## Multi-Agent / Multi-Session
+
+- Diese Anweisungen gelten für alle AI-Agenten, die Zugriff auf das Repo haben
+  (OpenCode, Claude, CodeX, …)
+- Alle Tasks bleiben in `tasks.md` Single Source of Truth
+- README.md ist synchronisierte Dokumentation
+- Branches / Worktrees werden nach Standardpräfix und Pattern organisiert
+- config.json wird automatisch gepflegt
+
+---
+
+## Task Block Beispiel
+
+- GitHub Issue: https://github.com/org/repo/issues/17
+- Branch: feature/t-17-github-projects
+- Status: todo
+- Priority: high
+- Notes: GitHub Projects Expert Skill entwickeln
