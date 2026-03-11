@@ -140,9 +140,9 @@
 <!-- TASKS-START -->
 - GitHub Issue: https://github.com/aykustik/opencode/issues/1
 - Branch: ai-task-1
-- Status: todo
+- Status: done
 - Priority: high
-- Notes: OpenCode Skill Basis entwickeln
+- Notes: OpenCode Skill Basis entwickeln ✅
 <!-- TASKS-END -->
 
 # Notes / temporäre Ideen
