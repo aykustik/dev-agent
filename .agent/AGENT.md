@@ -155,6 +155,20 @@ gh pr create --title "Task Updates" --body "## Änderungen ..."
 - Branches / Worktrees werden nach Standardpräfix und Pattern organisiert
 - config.json wird automatisch gepflegt
 
+## Handoff-Pflichten
+
+Um Context Rot zu vermeiden und die Zusammenarbeit zwischen Sessions zu gewährleisten:
+
+1. **Handoff-Erstellung**: Vor Session-Ende muss geprüft werden, ob ein Handoff erforderlich ist (siehe `.agent/handoffs/README.md` für Kriterien).
+2. **Pflicht-Handoff bei**: 
+   - Session länger als 30 Minuten
+   - Mehr als 5 Dateien geändert
+   - Offene TODOs oder Blockierer vorhanden
+3. **Ablageort**: Handoffs gehören in `.agent/handoffs/projects/<projekt>/` oder `.agent/handoffs/sessions/` gemäß Struktur.
+4. **Verweis auf Tasks**: Im Handoff müssen relevante Task-Referenzen (#<Issue>) angegeben werden.
+5. **Nach Handoff-Erstellung**: Das Handoff-Dokument muss committet und idealerweise via PR zur Review eingefordert werden.
+6. **Session-Start**: Zu Beginn jeder Session muss das aktuelle LATEST.Handoff des jeweiligen Projekts konsultiert werden.
+
 ---
 
 ## Task Block Beispiel

@@ -53,6 +53,19 @@ Diese Übersicht wird vom Agenten gepflegt.
 
 Automatisches Update durch den Agenten.
 
+## Handoff-System
+
+Dieses Repository nutzt ein strukturiertes Handoff-System, um Context Rot zu vermeiden und Sessions zwischen KI-Agenten sauber zu übergeben.
+
+- **System-README:** [`.agent/handoffs/README.md`](.agent/handoffs/README.md)
+- **Template:** [`.agent/handoffs/template.md`](.agent/handoffs/template.md)
+- **Aktuelles Handoff:** [`.agent/handoffs/projects/LATEST.md`](.agent/handoffs/projects/LATEST.md)
+
+### Wann Handoff erstellen?
+- Session länger als 30 Minuten
+- Mehr als 5 Dateien geändert
+- Offene TODOs oder Blockierer am Session-Ende
+
 ## Nutzung / Setup
 
 - Dependencies installieren:
