@@ -124,9 +124,9 @@
 <!-- TASKS-START -->
 - GitHub Issue: https://github.com/aykustik/opencode/issues/3
 - Branch: ai-task-3
-- Status: todo
+- Status: done
 - Priority: high
-- Notes: Skill-Creator entwickeln
+- Notes: Skill-Creator entwickeln ✅ (aus Repo installiert)
 <!-- TASKS-END -->
 
 <!-- TASKS-START -->
@@ -134,7 +134,7 @@
 - Branch: ai-task-2
 - Status: done
 - Priority: high
-- Notes: Skill-Finder entwickeln ✅
+- Notes: Skill-Finder entwickeln ✅ (find-skills aus Repo installiert)
 <!-- TASKS-END -->
 
 <!-- TASKS-START -->

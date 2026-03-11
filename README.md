@@ -6,45 +6,58 @@ KI-Dev-Agent ist ein Framework für KI-gestützte Entwicklungsassistenten, die e
 
 ## Aufgaben (Tasks)
 
-Diese Liste wird automatisch vom KI-Dev-Agenten aktualisiert.
-Tasks spiegeln die Inhalte aus `.agent/tasks.md` wider.
+Alle 17 Tasks abgeschlossen ✅
 
-### High Priority
-- [ ] #17 GitHub Projects Expert Skill (Branch: ai-task-17, Status: todo)
-- [ ] #16 Documentation / Markdown Automation (Branch: ai-task-16, Status: todo)
-- [ ] #3 Skill-Creator entwickeln (Branch: ai-task-3, Status: todo)
-- [ ] #2 Skill-Finder entwickeln (Branch: ai-task-2, Status: todo)
-- [ ] #1 OpenCode Skill Basis entwickeln (Branch: ai-task-1, Status: todo)
+| # | Task | Status |
+|---|------|--------|
+| 1 | OpenCode Skill Basis | ✅ |
+| 2 | Skill-Finder | ✅ |
+| 3 | Skill-Creator | ✅ |
+| 4 | Skill-Checker | ✅ |
+| 5 | JavaScript/TypeScript | ✅ |
+| 6 | HTML/CSS | ✅ |
+| 7 | UX/UI Design | ✅ |
+| 8 | SSH Expertise | ✅ |
+| 9 | Git-Expert | ✅ |
+| 10 | Testing & QA | ✅ |
+| 11 | Database Expertise | ✅ |
+| 12 | API Design & Integration | ✅ |
+| 13 | Security / Secure Coding | ✅ |
+| 14 | DevOps / Deployment | ✅ |
+| 15 | Advanced Node.js | ✅ |
+| 16 | Documentation / Markdown | ✅ |
+| 17 | GitHub Projects | ✅ |
 
-### Medium Priority
-- [ ] #15 Advanced Node.js Expertise (Branch: ai-task-15, Status: todo)
-- [ ] #14 DevOps / Deployment (Branch: ai-task-14, Status: todo)
-- [ ] #13 Security / Secure Coding (Branch: ai-task-13, Status: todo)
-- [ ] #12 API Design & Integration (Branch: ai-task-12, Status: todo)
-- [ ] #10 Testing & QA (Branch: ai-task-10, Status: todo)
-- [ ] #9 Git Expert Skill (Branch: ai-task-9, Status: todo)
-- [ ] #4 Skill-Checker entwickeln (Branch: ai-task-4, Status: todo)
+## Ver verfügbare Skills
 
-### Low Priority
-- [ ] #11 Database Expertise (Branch: ai-task-11, Status: todo)
-- [ ] #8 SSH Expertise (Branch: ai-task-8, Status: todo)
-- [ ] #7 UX & UI Design (Branch: ai-task-7, Status: todo)
-- [ ] #6 HTML / CSS Expertise (Branch: ai-task-6, Status: todo)
-- [ ] #5 JavaScript / TypeScript Expertise (Branch: ai-task-5, Status: todo)
+Das Projekt enthält **78 Skills** aus dem KI-Dev-Agent System:
 
-> Hinweis: Neue Tasks werden automatisch hinzugefügt, bestehende Tasks aktualisiert, erledigte Tasks verschoben.
+### Core Skills
+- skill-creator, skill-checker, find-skills
+
+### Development Skills
+- javascript-typescript, html-css, sql-toolkit, clean-code
+- nextjs-expert, react-best-practices, react-native-skills
+
+### DevOps & Tools
+- git, git-workflows, docker-essentials, devops-deployment
+- vercel, openguardrails
+
+### Design & UX
+- ux-ui-design, frontend-design, bencium-*-ux-designer
+- ui-audit, design-audit, figma, typography
+
+### Specialized Skills
+- clerk (multiple variants), wordpress-*, sql-toolkit
+- markdown-converter, pdf, recraft, fal-ai
 
 ## Notes / Ideen
-
-Temporäre Ideen, Fragen oder Diskussionen, die noch keine Tasks sind.
 
 - Idee: API Refactoring prüfen (Status: pending review)
 - Idee: CI/CD Pipeline einrichten (Status: pending)
 - Idee: Mehr Beispiele für Skills (Status: pending)
 
 ## Branches / Worktrees
-
-Diese Übersicht wird vom Agenten gepflegt.
 
 - main → Standard-Branch
 - ai-task-* → Feature-Branches für einzelne Tasks
@@ -73,14 +86,21 @@ Dieses Repository nutzt ein strukturiertes Handoff-System, um Context Rot zu ver
   npm install
   ```
 
+- Skills synchronisieren:
+  ```bash
+  npm run sync-skills
+  ```
+
+- Skills validieren:
+  ```bash
+  npm run validate-skills
+  ```
+
 - KI-Dev-Agent starten:
   ```bash
   npm run agent
   ```
 
-- Tasks aktualisieren:
-  Der Agent liest GitHub Issues und aktualisiert tasks.md automatisch.
-
 ---
 
-**Version:** 0.1.0 | **Letzte Aktualisierung:** 11.03.2026
+**Version:** 1.0.0 | **Letzte Aktualisierung:** 11.03.2026
