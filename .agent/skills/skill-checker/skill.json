@@ -1,0 +1,73 @@
+{
+  "name": "skill-checker",
+  "version": "1.0.0",
+  "description": "Validation and quality assurance system for skills in the KI-Dev-Agent ecosystem",
+  "author": "KI-Dev-Agent Team",
+  "created": "2026-03-11",
+  "tags": ["validation", "quality", "qa", "linting"],
+  "dependencies": [],
+  "tools": [
+    {
+      "name": "validate_skill",
+      "description": "Validate a skill's structure and metadata",
+      "parameters": {
+        "skill_path": {
+          "type": "string",
+          "description": "Path to the skill directory",
+          "required": true
+        }
+      }
+    },
+    {
+      "name": "validate_all_skills",
+      "description": "Validate all skills in the skills directory",
+      "parameters": {
+        "verbose": {
+          "type": "boolean",
+          "description": "Include detailed validation output",
+          "required": false,
+          "default": false
+        }
+      }
+    },
+    {
+      "name": "check_skill_json",
+      "description": "Validate skill.json structure and required fields",
+      "parameters": {
+        "skill_path": {
+          "type": "string",
+          "description": "Path to the skill directory",
+          "required": true
+        }
+      }
+    },
+    {
+      "name": "check_documentation",
+      "description": "Check if a skill has adequate documentation",
+      "parameters": {
+        "skill_path": {
+          "type": "string",
+          "description": "Path to the skill directory",
+          "required": true
+        }
+      }
+    },
+    {
+      "name": "generate_validation_report",
+      "description": "Generate a comprehensive validation report for one or all skills",
+      "parameters": {
+        "skill_path": {
+          "type": "string",
+          "description": "Path to specific skill or 'all' for all skills",
+          "required": true
+        },
+        "output_format": {
+          "type": "string",
+          "description": "Output format: markdown, json, or html",
+          "required": false,
+          "default": "markdown"
+        }
+      }
+    }
+  ]
+}

@@ -116,9 +116,9 @@
 <!-- TASKS-START -->
 - GitHub Issue: https://github.com/aykustik/opencode/issues/4
 - Branch: ai-task-4
-- Status: todo
+- Status: done
 - Priority: medium
-- Notes: Skill-Checker entwickeln
+- Notes: Skill-Checker entwickeln ✅
 <!-- TASKS-END -->
 
 <!-- TASKS-START -->
@@ -132,9 +132,9 @@
 <!-- TASKS-START -->
 - GitHub Issue: https://github.com/aykustik/opencode/issues/2
 - Branch: ai-task-2
-- Status: todo
+- Status: done
 - Priority: high
-- Notes: Skill-Finder entwickeln
+- Notes: Skill-Finder entwickeln ✅
 <!-- TASKS-END -->
 
 <!-- TASKS-START -->

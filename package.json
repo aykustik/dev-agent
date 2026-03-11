@@ -1,0 +1,15 @@
+{
+  "name": "ki-dev-agent",
+  "version": "0.1.0",
+  "description": "Framework für KI-gestützte Entwicklungsassistenten",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "validate-skills": "node .agent/skills/skill-checker/scripts/validate.js validate-all",
+    "validate-skills:verbose": "node .agent/skills/skill-checker/scripts/validate.js validate-all --verbose",
+    "agent": "echo \"KI-Dev-Agent starten...\""
+  },
+  "keywords": ["ai", "agent", "development", "automation"],
+  "author": "KI-Dev-Agent Team",
+  "license": "MIT"
+}

@@ -5,8 +5,8 @@ This file points to the most recent handoff for this project.
 ## Current Latest Handoff
 
 - **Datum:** 2026-03-11
-- **Titel:** Projekt-Initialisierung und Handoff-System Einrichtung
-- **Datei:** `2026-03-11_handoff_projekt-initialisierung.md`
+- **Titel:** Skill-Checker Implementation
+- **Datei:** `2026-03-11_handoff_skill-checker.md`
 
 ## Quick Links
 
