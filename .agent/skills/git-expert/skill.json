@@ -1,0 +1,177 @@
+{
+  "name": "git-expert",
+  "version": "1.0.0",
+  "description": "Advanced Git operations for automated development workflows - branch management, commits, and PR workflows",
+  "author": "KI-Dev-Agent Team",
+  "created": "2026-03-11",
+  "tags": ["git", "version-control", "devops", "automation"],
+  "dependencies": ["simple-git"],
+  "tools": [
+    {
+      "name": "create_branch",
+      "description": "Create and checkout a new branch",
+      "parameters": {
+        "branch_name": {
+          "type": "string",
+          "description": "Name of the branch to create",
+          "required": true
+        },
+        "start_point": {
+          "type": "string",
+          "description": "Commit, branch, or tag to start from (default: current HEAD)",
+          "required": false
+        }
+      }
+    },
+    {
+      "name": "commit_changes",
+      "description": "Stage and commit changes with conventional commit format",
+      "parameters": {
+        "message": {
+          "type": "string",
+          "description": "Commit message",
+          "required": true
+        },
+        "type": {
+          "type": "string",
+          "description": "Commit type (feat, fix, docs, style, refactor, perf, test, chore)",
+          "required": false,
+          "default": "feat"
+        },
+        "files": {
+          "type": "array",
+          "description": "Specific files to commit (default: all changes)",
+          "items": {"type": "string"},
+          "required": false
+        }
+      }
+    },
+    {
+      "name": "create_pull_request",
+      "description": "Create a pull request using GitHub CLI",
+      "parameters": {
+        "title": {
+          "type": "string",
+          "description": "Pull request title",
+          "required": true
+        },
+        "body": {
+          "type": "string",
+          "description": "Pull request description",
+          "required": false
+        },
+        "head": {
+          "type": "string",
+          "description": "Source branch",
+          "required": true
+        },
+        "base": {
+          "type": "string",
+          "description": "Target branch (default: main)",
+          "required": false,
+          "default": "main"
+        },
+        "draft": {
+          "type": "boolean",
+          "description": "Create as draft PR",
+          "required": false,
+          "default": false
+        }
+      }
+    },
+    {
+      "name": "get_status",
+      "description": "Get current repository status",
+      "parameters": {
+        "verbose": {
+          "type": "boolean",
+          "description": "Include detailed status information",
+          "required": false,
+          "default": false
+        }
+      }
+    },
+    {
+      "name": "get_branches",
+      "description": "List all local and/or remote branches",
+      "parameters": {
+        "remote": {
+          "type": "boolean",
+          "description": "Include remote branches",
+          "required": false,
+          "default": false
+        }
+      }
+    },
+    {
+      "name": "delete_branch",
+      "description": "Delete a local or remote branch",
+      "parameters": {
+        "branch_name": {
+          "type": "string",
+          "description": "Name of the branch to delete",
+          "required": true
+        },
+        "remote": {
+          "type": "boolean",
+          "description": "Delete remote branch",
+          "required": false,
+          "default": false
+        },
+        "force": {
+          "type": "boolean",
+          "description": "Force delete unmerged branch",
+          "required": false,
+          "default": false
+        }
+      }
+    },
+    {
+      "name": "stash_changes",
+      "description": "Stash current changes",
+      "parameters": {
+        "message": {
+          "type": "string",
+          "description": "Stash message",
+          "required": false
+        },
+        "include_untracked": {
+          "type": "boolean",
+          "description": "Include untracked files",
+          "required": false,
+          "default": true
+        }
+      }
+    },
+    {
+      "name": "apply_stash",
+      "description": "Apply and remove a stash",
+      "parameters": {
+        "stash_index": {
+          "type": "integer",
+          "description": "Stash index (default: 0 = latest)",
+          "required": false,
+          "default": 0
+        }
+      }
+    },
+    {
+      "name": "get_log",
+      "description": "Get commit history",
+      "parameters": {
+        "max_count": {
+          "type": "integer",
+          "description": "Maximum number of commits",
+          "required": false,
+          "default": 10
+        },
+        "format": {
+          "type": "string",
+          "description": "Commit format (short, medium, full)",
+          "required": false,
+          "default": "short"
+        }
+      }
+    }
+  ]
+}

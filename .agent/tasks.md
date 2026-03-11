@@ -76,9 +76,9 @@
 <!-- TASKS-START -->
 - GitHub Issue: https://github.com/aykustik/opencode/issues/9
 - Branch: ai-task-9
-- Status: todo
+- Status: done
 - Priority: medium
-- Notes: Git Expert Skill
+- Notes: Git Expert Skill ✅
 <!-- TASKS-END -->
 
 <!-- TASKS-START -->
