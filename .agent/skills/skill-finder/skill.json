@@ -1,0 +1,69 @@
+{
+  "name": "skill-finder",
+  "version": "1.0.0",
+  "description": "System for discovering and cataloging available skills in the KI-Dev-Agent ecosystem",
+  "author": "KI-Dev-Agent Team",
+  "created": "2026-03-11",
+  "tags": ["discovery", "metadata", "registry"],
+  "dependencies": [],
+  "tools": [
+    {
+      "name": "list_skills",
+      "description": "List all available skills in the system",
+      "parameters": {
+        "include_details": {
+          "type": "boolean",
+          "description": "Include detailed skill information",
+          "required": false,
+          "default": false
+        },
+        "tags": {
+          "type": "array",
+          "description": "Filter skills by tags",
+          "items": {"type": "string"},
+          "required": false
+        }
+      }
+    },
+    {
+      "name": "find_skill_by_name",
+      "description": "Find a skill by its name",
+      "parameters": {
+        "skill_name": {
+          "type": "string",
+          "description": "Name of the skill to find",
+          "required": true
+        }
+      }
+    },
+    {
+      "name": "find_skills_by_tag",
+      "description": "Find skills that match specific tags",
+      "parameters": {
+        "tags": {
+          "type": "array",
+          "description": "Tags to search for",
+          "items": {"type": "string"},
+          "required": true
+        },
+        "match_all": {
+          "type": "boolean",
+          "description": "Whether skill must match all tags (true) or any tag (false)",
+          "required": false,
+          "default": false
+        }
+      }
+    },
+    {
+      "name": "get_skill_metadata",
+      "description": "Get detailed metadata for a specific skill",
+      "parameters": {
+        "skill_name": {
+          "type": "string",
+          "description": "Name of the skill",
+          "required": true
+        }
+      }
+    }
+  ]
+}

@@ -1,12 +1,12 @@
-# OpenCode
+# KI-Dev-Agent
 
 ## Beschreibung
 
-OpenCode ist ein persönliches KI-gestütztes Coding-Assistenten-System mit Skills für verschiedene Aufgaben. Das Projekt nutzt OpenCode als KI-Agent und verwaltet Tasks über GitHub Projects.
+KI-Dev-Agent ist ein Framework für KI-gestützte Entwicklungsassistenten, die eigenständig Software-Engineering-Aufgaben durch standardisierte Workflows, Task-Management und Git-Operationen erledigen können.
 
 ## Aufgaben (Tasks)
 
-Diese Liste wird automatisch vom AI-Agenten aktualisiert.
+Diese Liste wird automatisch vom KI-Dev-Agenten aktualisiert.
 Tasks spiegeln die Inhalte aus `.agent/tasks.md` wider.
 
 ### High Priority
@@ -60,7 +60,7 @@ Automatisches Update durch den Agenten.
   npm install
   ```
 
-- AI-Agent starten:
+- KI-Dev-Agent starten:
   ```bash
   npm run agent
   ```
@@ -70,4 +70,4 @@ Automatisches Update durch den Agenten.
 
 ---
 
-**Version:** 0.1.0 | **Letzte Aktualisierung:** 10.03.2026
+**Version:** 0.1.0 | **Letzte Aktualisierung:** 11.03.2026
