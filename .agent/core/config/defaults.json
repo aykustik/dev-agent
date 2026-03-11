@@ -1,0 +1,30 @@
+{
+  "version": "1.0.0",
+  "system": "ki-dev-agent",
+  "defaults": {
+    "branch": "main",
+    "branchPrefix": "ai-task",
+    "commitStyle": "conventional",
+    "taskStatus": ["todo", "in-progress", "done"],
+    "priority": ["low", "medium", "high"]
+  },
+  "skills": {
+    "syncOnInit": true,
+    "validateOnSync": true,
+    "autoLoad": false
+  },
+  "handoff": {
+    "createOnSessionEnd": true,
+    "requireForSessionsLongerThan": 30,
+    "requireForFilesChanged": 5,
+    "template": ".agent/handoffs/template.md"
+  },
+  "github": {
+    "tokenEnv": "GH_TOKEN",
+    "apiUrl": "https://api.github.com"
+  },
+  "workspace": {
+    "startupScript": "npm install",
+    "autoUpdateTasks": true
+  }
+}
