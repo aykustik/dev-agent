@@ -1,0 +1,126 @@
+{
+  "name": "testing-qa",
+  "version": "1.0.0",
+  "description": "Testing and Quality Assurance framework - test runners, linting, coverage reports, and CI/CD integration",
+  "author": "KI-Dev-Agent Team",
+  "created": "2026-03-11",
+  "tags": ["testing", "qa", "quality", "ci-cd", "linting"],
+  "dependencies": [],
+  "tools": [
+    {
+      "name": "run_tests",
+      "description": "Run tests for the project",
+      "parameters": {
+        "framework": {
+          "type": "string",
+          "description": "Test framework (jest, mocha, vitest, auto)",
+          "required": false,
+          "default": "auto"
+        },
+        "coverage": {
+          "type": "boolean",
+          "description": "Generate coverage report",
+          "required": false,
+          "default": false
+        },
+        "pattern": {
+          "type": "string",
+          "description": "Test file pattern",
+          "required": false
+        }
+      }
+    },
+    {
+      "name": "lint_code",
+      "description": "Run linting on code files",
+      "parameters": {
+        "fix": {
+          "type": "boolean",
+          "description": "Auto-fix issues where possible",
+          "required": false,
+          "default": false
+        },
+        "files": {
+          "type": "array",
+          "description": "Specific files to lint",
+          "required": false
+        }
+      }
+    },
+    {
+      "name": "check_quality",
+      "description": "Run comprehensive quality checks",
+      "parameters": {
+        "include": {
+          "type": "array",
+          "description": "Checks to include (lint, tests, security, types)",
+          "required": false
+        }
+      }
+    },
+    {
+      "name": "generate_coverage_report",
+      "description": "Generate and display coverage report",
+      "parameters": {
+        "format": {
+          "type": "string",
+          "description": "Report format (text, html, json)",
+          "required": false,
+          "default": "text"
+        },
+        "min_coverage": {
+          "type": "number",
+          "description": "Minimum required coverage percentage",
+          "required": false,
+          "default": 80
+        }
+      }
+    },
+    {
+      "name": "validate_types",
+      "description": "Run TypeScript type checking",
+      "parameters": {
+        "strict": {
+          "type": "boolean",
+          "description": "Use strict mode",
+          "required": false,
+          "default": false
+        }
+      }
+    },
+    {
+      "name": "check_dependencies",
+      "description": "Check for outdated or vulnerable dependencies",
+      "parameters": {
+        "audit": {
+          "type": "boolean",
+          "description": "Run security audit",
+          "required": false,
+          "default": true
+        }
+      }
+    },
+    {
+      "name": "create_test_scaffold",
+      "description": "Create test file scaffold for a given source file",
+      "parameters": {
+        "source_file": {
+          "type": "string",
+          "description": "Path to source file",
+          "required": true
+        },
+        "framework": {
+          "type": "string",
+          "description": "Test framework (jest, mocha)",
+          "required": false,
+          "default": "jest"
+        }
+      }
+    },
+    {
+      "name": "get_test_status",
+      "description": "Get current test and quality status",
+      "parameters": {}
+    }
+  ]
+}

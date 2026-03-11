@@ -5,8 +5,8 @@ This file points to the most recent handoff for this project.
 ## Current Latest Handoff
 
 - **Datum:** 2026-03-11
-- **Titel:** OpenCode Skill Basis Implementation
-- **Datei:** `2026-03-11_handoff_opencode-skill-basis.md`
+- **Titel:** Testing & QA Framework Implementation
+- **Datei:** `2026-03-11_handoff_testing-qa.md`
 
 ## Quick Links
 
