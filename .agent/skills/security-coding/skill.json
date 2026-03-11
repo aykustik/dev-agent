@@ -1,0 +1,61 @@
+{
+  "name": "security-coding",
+  "version": "1.0.0",
+  "description": "Security & Secure Coding expertise - vulnerability scanning, secure patterns, authentication, and best practices",
+  "author": "KI-Dev-Agent Team",
+  "created": "2026-03-11",
+  "tags": ["security", "vulnerability", "encryption", "authentication", "owasp", "secure-coding"],
+  "dependencies": [],
+  "tools": [
+    {
+      "name": "scan_vulnerabilities",
+      "description": "Scan code for security vulnerabilities",
+      "parameters": {
+        "language": {
+          "type": "string",
+          "description": "Language (javascript, python, go)",
+          "required": false,
+          "default": "javascript"
+        }
+      }
+    },
+    {
+      "name": "add_input_validation",
+      "description": "Add input validation to function",
+      "parameters": {
+        "type": {
+          "type": "string",
+          "description": "Validation type (email, url, number, custom)",
+          "required": true
+        }
+      }
+    },
+    {
+      "name": "secure_auth",
+      "description": "Generate secure authentication code",
+      "parameters": {
+        "method": {
+          "type": "string",
+          "description": "Auth method (jwt, bcrypt, oauth)",
+          "required": true
+        }
+      }
+    },
+    {
+      "name": "encrypt_data",
+      "description": "Generate encryption utilities",
+      "parameters": {
+        "algorithm": {
+          "type": "string",
+          "description": "Algorithm (aes, rsa, bcrypt)",
+          "required": true
+        }
+      }
+    },
+    {
+      "name": "get_security_headers",
+      "description": "Get recommended security HTTP headers",
+      "parameters": {}
+    }
+  ]
+}

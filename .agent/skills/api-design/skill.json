@@ -1,0 +1,88 @@
+{
+  "name": "api-design",
+  "version": "1.0.0",
+  "description": "API Design & Integration expertise - REST, GraphQL, OpenAPI, authentication, and API best practices",
+  "author": "KI-Dev-Agent Team",
+  "created": "2026-03-11",
+  "tags": ["api", "rest", "graphql", "openapi", "integration", "restful"],
+  "dependencies": [],
+  "tools": [
+    {
+      "name": "generate_endpoint",
+      "description": "Generate API endpoint code",
+      "parameters": {
+        "method": {
+          "type": "string",
+          "description": "HTTP method (GET, POST, PUT, DELETE, PATCH)",
+          "required": true
+        },
+        "path": {
+          "type": "string",
+          "description": "API path",
+          "required": true
+        },
+        "framework": {
+          "type": "string",
+          "description": "Framework (express, fastify, koa)",
+          "required": false,
+          "default": "express"
+        }
+      }
+    },
+    {
+      "name": "generate_openapi",
+      "description": "Generate OpenAPI specification",
+      "parameters": {
+        "title": {
+          "type": "string",
+          "description": "API title",
+          "required": true
+        },
+        "version": {
+          "type": "string",
+          "description": "API version",
+          "required": false,
+          "default": "1.0.0"
+        }
+      }
+    },
+    {
+      "name": "design_schema",
+      "description": "Design API request/response schema",
+      "parameters": {
+        "entity": {
+          "type": "string",
+          "description": "Entity name",
+          "required": true
+        }
+      }
+    },
+    {
+      "name": "add_auth",
+      "description": "Add authentication to API endpoint",
+      "parameters": {
+        "type": {
+          "type": "string",
+          "description": "Auth type (jwt, oauth, basic, api-key)",
+          "required": true
+        }
+      }
+    },
+    {
+      "name": "validate_endpoint",
+      "description": "Validate API endpoint design",
+      "parameters": {
+        "method": {
+          "type": "string",
+          "description": "HTTP method",
+          "required": true
+        },
+        "path": {
+          "type": "string",
+          "description": "API path",
+          "required": true
+        }
+      }
+    }
+  ]
+}

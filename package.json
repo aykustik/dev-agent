@@ -7,6 +7,8 @@
     "test": "echo \"Error: no test specified\" && exit 1",
     "validate-skills": "node .agent/skills/skill-checker/scripts/validate.js validate-all",
     "validate-skills:verbose": "node .agent/skills/skill-checker/scripts/validate.js validate-all --verbose",
+    "sync-skills": "node .agent/lib/skill-sync.js sync",
+    "sync-skills:list": "node .agent/lib/skill-sync.js list",
     "agent": "echo \"KI-Dev-Agent starten...\""
   },
   "keywords": ["ai", "agent", "development", "automation"],

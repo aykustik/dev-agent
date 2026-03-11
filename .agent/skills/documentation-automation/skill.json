@@ -1,0 +1,58 @@
+{
+  "name": "documentation-automation",
+  "version": "1.0.0",
+  "description": "Documentation & Markdown Automation - auto-generate docs from code, README templates, API docs",
+  "author": "KI-Dev-Agent Team",
+  "created": "2026-03-11",
+  "tags": ["documentation", "markdown", "readme", "automation", "api-docs", "生成"],
+  "dependencies": [],
+  "tools": [
+    {
+      "name": "generate_readme",
+      "description": "Generate README.md from package.json",
+      "parameters": {
+        "template": {
+          "type": "string",
+          "description": "Template (basic, detailed, minimal)",
+          "required": false,
+          "default": "detailed"
+        }
+      }
+    },
+    {
+      "name": "generate_api_docs",
+      "description": "Generate API documentation",
+      "parameters": {
+        "format": {
+          "type": "string",
+          "description": "Format (openapi, markdown, html)",
+          "required": false,
+          "default": "markdown"
+        }
+      }
+    },
+    {
+      "name": "extract_jsdocs",
+      "description": "Extract JSDoc comments to markdown",
+      "parameters": {
+        "file": {
+          "type": "string",
+          "description": "Source file",
+          "required": true
+        }
+      }
+    },
+    {
+      "name": "generate_changelog",
+      "description": "Generate changelog from git commits",
+      "parameters": {
+        "style": {
+          "type": "string",
+          "description": "Style (keepachangelog, conventional)",
+          "required": false,
+          "default": "conventional"
+        }
+      }
+    }
+  ]
+}

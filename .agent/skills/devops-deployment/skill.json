@@ -1,0 +1,56 @@
+{
+  "name": "devops-deployment",
+  "version": "1.0.0",
+  "description": "DevOps & Deployment expertise - CI/CD pipelines, Docker, Kubernetes, cloud deployment, and infrastructure",
+  "author": "KI-Dev-Agent Team",
+  "created": "2026-03-11",
+  "tags": ["devops", "ci-cd", "docker", "kubernetes", "deployment", "infrastructure"],
+  "dependencies": [],
+  "tools": [
+    {
+      "name": "generate_dockerfile",
+      "description": "Generate Dockerfile for application",
+      "parameters": {
+        "language": {
+          "type": "string",
+          "description": "Language/framework (node, python, go, java)",
+          "required": true
+        }
+      }
+    },
+    {
+      "name": "generate_github_actions",
+      "description": "Generate GitHub Actions workflow",
+      "parameters": {
+        "workflow": {
+          "type": "string",
+          "description": "Workflow type (ci, cd, test, deploy)",
+          "required": true
+        }
+      }
+    },
+    {
+      "name": "generate_k8s_manifest",
+      "description": "Generate Kubernetes manifest",
+      "parameters": {
+        "type": {
+          "type": "string",
+          "description": "Resource type (deployment, service, ingress)",
+          "required": true
+        }
+      }
+    },
+    {
+      "name": "setup_monitoring",
+      "description": "Generate monitoring configuration",
+      "parameters": {
+        "stack": {
+          "type": "string",
+          "description": "Monitoring stack (prometheus, elk, datadog)",
+          "required": false,
+          "default": "prometheus"
+        }
+      }
+    }
+  ]
+}

@@ -1,0 +1,58 @@
+{
+  "name": "advanced-nodejs",
+  "version": "1.0.0",
+  "description": "Advanced Node.js expertise - streams, buffers, clustering, performance optimization, and backend patterns",
+  "author": "KI-Dev-Agent Team",
+  "created": "2026-03-11",
+  "tags": ["nodejs", "backend", "performance", "streams", "clustering", "express"],
+  "dependencies": [],
+  "tools": [
+    {
+      "name": "generate_server",
+      "description": "Generate Node.js server setup",
+      "parameters": {
+        "framework": {
+          "type": "string",
+          "description": "Framework (express, fastify, koa, hapi)",
+          "required": false,
+          "default": "express"
+        }
+      }
+    },
+    {
+      "name": "implement_streams",
+      "description": "Implement Node.js streams",
+      "parameters": {
+        "type": {
+          "type": "string",
+          "description": "Stream type (readable, writable, transform, duplex)",
+          "required": true
+        }
+      }
+    },
+    {
+      "name": "setup_cluster",
+      "description": "Generate cluster configuration",
+      "parameters": {
+        "workers": {
+          "type": "number",
+          "description": "Number of workers",
+          "required": false,
+          "default": 4
+        }
+      }
+    },
+    {
+      "name": "add_error_handling",
+      "description": "Add proper error handling",
+      "parameters": {
+        "context": {
+          "type": "string",
+          "description": "Context (async, sync, middleware)",
+          "required": false,
+          "default": "async"
+        }
+      }
+    }
+  ]
+}
