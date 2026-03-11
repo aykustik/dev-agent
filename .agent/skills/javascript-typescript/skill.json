@@ -1,0 +1,140 @@
+{
+  "name": "javascript-typescript",
+  "version": "1.0.0",
+  "description": "JavaScript and TypeScript expertise - patterns, best practices, code generation, and modern ES6+ features",
+  "author": "KI-Dev-Agent Team",
+  "created": "2026-03-11",
+  "tags": ["javascript", "typescript", "frontend", "development", "es6", "nodejs"],
+  "dependencies": [],
+  "tools": [
+    {
+      "name": "generate_code",
+      "description": "Generate JavaScript/TypeScript code from specification",
+      "parameters": {
+        "type": {
+          "type": "string",
+          "description": "Code type to generate (class, function, component, hook, service, utility)",
+          "required": true
+        },
+        "name": {
+          "type": "string",
+          "description": "Name of the code to generate",
+          "required": true
+        },
+        "language": {
+          "type": "string",
+          "description": "Target language (javascript or typescript)",
+          "required": false,
+          "default": "typescript"
+        }
+      }
+    },
+    {
+      "name": "refactor_code",
+      "description": "Refactor JavaScript/TypeScript code to modern patterns",
+      "parameters": {
+        "code": {
+          "type": "string",
+          "description": "Code to refactor",
+          "required": true
+        },
+        "target": {
+          "type": "string",
+          "description": "Target pattern (functional, oop, hooks, classes)",
+          "required": false,
+          "default": "functional"
+        }
+      }
+    },
+    {
+      "name": "add_types",
+      "description": "Add TypeScript types to JavaScript code",
+      "parameters": {
+        "code": {
+          "type": "string",
+          "description": "JavaScript code to add types to",
+          "required": true
+        },
+        "strict": {
+          "type": "boolean",
+          "description": "Use strict typing",
+          "required": false,
+          "default": true
+        }
+      }
+    },
+    {
+      "name": "optimize_code",
+      "description": "Optimize JavaScript code for performance",
+      "parameters": {
+        "code": {
+          "type": "string",
+          "description": "Code to optimize",
+          "required": true
+        },
+        "target": {
+          "type": "string",
+          "description": "Optimization target (size, speed, memory)",
+          "required": false,
+          "default": "speed"
+        }
+      }
+    },
+    {
+      "name": "generate_test",
+      "description": "Generate unit tests for JavaScript/TypeScript code",
+      "parameters": {
+        "code": {
+          "type": "string",
+          "description": "Code to generate tests for",
+          "required": true
+        },
+        "framework": {
+          "type": "string",
+          "description": "Test framework (jest, mocha, vitest)",
+          "required": false,
+          "default": "jest"
+        }
+      }
+    },
+    {
+      "name": "validate_syntax",
+      "description": "Validate JavaScript/TypeScript syntax",
+      "parameters": {
+        "code": {
+          "type": "string",
+          "description": "Code to validate",
+          "required": true
+        },
+        "language": {
+          "type": "string",
+          "description": "Language (javascript or typescript)",
+          "required": false,
+          "default": "javascript"
+        }
+      }
+    },
+    {
+      "name": "convert_to_esm",
+      "description": "Convert CommonJS to ES Modules",
+      "parameters": {
+        "code": {
+          "type": "string",
+          "description": "CommonJS code to convert",
+          "required": true
+        }
+      }
+    },
+    {
+      "name": "get_best_practices",
+      "description": "Get best practices for JavaScript/TypeScript",
+      "parameters": {
+        "topic": {
+          "type": "string",
+          "description": "Topic (async, types, classes, modules, testing)",
+          "required": false
+        }
+      }
+    }
+  ]
+}

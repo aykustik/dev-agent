@@ -1,0 +1,88 @@
+{
+  "name": "database-expertise",
+  "version": "1.0.0",
+  "description": "Database expertise - SQL, NoSQL, data modeling, queries, migrations, and optimization",
+  "author": "KI-Dev-Agent Team",
+  "created": "2026-03-11",
+  "tags": ["database", "sql", "nosql", "modeling", "queries", "migrations"],
+  "dependencies": [],
+  "tools": [
+    {
+      "name": "generate_schema",
+      "description": "Generate database schema from entities",
+      "parameters": {
+        "entities": {
+          "type": "array",
+          "description": "Entity definitions",
+          "required": true
+        },
+        "dialect": {
+          "type": "string",
+          "description": "SQL dialect (postgresql, mysql, sqlite)",
+          "required": false,
+          "default": "postgresql"
+        }
+      }
+    },
+    {
+      "name": "optimize_query",
+      "description": "Optimize a SQL query",
+      "parameters": {
+        "query": {
+          "type": "string",
+          "description": "SQL query to optimize",
+          "required": true
+        }
+      }
+    },
+    {
+      "name": "create_migration",
+      "description": "Generate migration script",
+      "parameters": {
+        "action": {
+          "type": "string",
+          "description": "Action (create_table, add_column, drop_table)",
+          "required": true
+        },
+        "table": {
+          "type": "string",
+          "description": "Table name",
+          "required": true
+        }
+      }
+    },
+    {
+      "name": "design_index",
+      "description": "Design database indexes",
+      "parameters": {
+        "table": {
+          "type": "string",
+          "description": "Table name",
+          "required": true
+        },
+        "columns": {
+          "type": "array",
+          "description": "Columns to index",
+          "required": true
+        }
+      }
+    },
+    {
+      "name": "generate_crud",
+      "description": "Generate CRUD operations",
+      "parameters": {
+        "table": {
+          "type": "string",
+          "description": "Table name",
+          "required": true
+        },
+        "language": {
+          "type": "string",
+          "description": "Language (javascript, python)",
+          "required": false,
+          "default": "javascript"
+        }
+      }
+    }
+  ]
+}

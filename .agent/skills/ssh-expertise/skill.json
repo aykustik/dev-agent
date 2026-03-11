@@ -1,0 +1,75 @@
+{
+  "name": "ssh-expertise",
+  "version": "1.0.0",
+  "description": "SSH expertise - secure connections, key management, remote server automation, and tunneling",
+  "author": "KI-Dev-Agent Team",
+  "created": "2026-03-11",
+  "tags": ["ssh", "security", "remote", "server", "automation", "tunneling"],
+  "dependencies": [],
+  "tools": [
+    {
+      "name": "generate_key_pair",
+      "description": "Generate SSH key pair",
+      "parameters": {
+        "type": {
+          "type": "string",
+          "description": "Key type (rsa, ed25519)",
+          "required": false,
+          "default": "ed25519"
+        },
+        "comment": {
+          "type": "string",
+          "description": "Key comment",
+          "required": false
+        }
+      }
+    },
+    {
+      "name": "create_config",
+      "description": "Create SSH config for a host",
+      "parameters": {
+        "host": {
+          "type": "string",
+          "description": "Host name",
+          "required": true
+        },
+        "hostname": {
+          "type": "string",
+          "description": "Hostname or IP",
+          "required": true
+        },
+        "user": {
+          "type": "string",
+          "description": "SSH user",
+          "required": true
+        }
+      }
+    },
+    {
+      "name": "create_tunnel",
+      "description": "Generate SSH tunnel command",
+      "parameters": {
+        "local_port": {
+          "type": "number",
+          "description": "Local port",
+          "required": true
+        },
+        "remote_host": {
+          "type": "string",
+          "description": "Remote host",
+          "required": true
+        },
+        "remote_port": {
+          "type": "number",
+          "description": "Remote port",
+          "required": true
+        }
+      }
+    },
+    {
+      "name": "secure_server_checklist",
+      "description": "Get server hardening checklist",
+      "parameters": {}
+    }
+  ]
+}

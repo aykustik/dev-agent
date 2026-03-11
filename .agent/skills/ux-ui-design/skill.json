@@ -1,0 +1,68 @@
+{
+  "name": "ux-ui-design",
+  "version": "1.0.0",
+  "description": "UX/UI Design expertise - design principles, user research, prototyping, and design systems",
+  "author": "KI-Dev-Agent Team",
+  "created": "2026-03-11",
+  "tags": ["ux", "ui", "design", "usability", "prototype", "design-system"],
+  "dependencies": [],
+  "tools": [
+    {
+      "name": "get_design_principles",
+      "description": "Get UX/UI design principles for a context",
+      "parameters": {
+        "context": {
+          "type": "string",
+          "description": "Context (web, mobile, dashboard, landing)",
+          "required": false
+        }
+      }
+    },
+    {
+      "name": "analyze_usability",
+      "description": "Analyze UI for usability issues",
+      "parameters": {
+        "description": {
+          "type": "string",
+          "description": "Description of the UI to analyze",
+          "required": true
+        }
+      }
+    },
+    {
+      "name": "generate_color_palette",
+      "description": "Generate a color palette",
+      "parameters": {
+        "base_color": {
+          "type": "string",
+          "description": "Base hex color",
+          "required": false,
+          "default": "#007bff"
+        }
+      }
+    },
+    {
+      "name": "create_style_guide",
+      "description": "Create a basic style guide",
+      "parameters": {
+        "project_type": {
+          "type": "string",
+          "description": "Project type (web, mobile, dashboard)",
+          "required": false,
+          "default": "web"
+        }
+      }
+    },
+    {
+      "name": "improve_accessibility",
+      "description": "Get accessibility improvement suggestions",
+      "parameters": {
+        "element": {
+          "type": "string",
+          "description": "UI element to improve",
+          "required": true
+        }
+      }
+    }
+  ]
+}

@@ -1,0 +1,119 @@
+{
+  "name": "html-css",
+  "version": "1.0.0",
+  "description": "HTML and CSS expertise - responsive design, modern CSS, accessibility, and UI components",
+  "author": "KI-Dev-Agent Team",
+  "created": "2026-03-11",
+  "tags": ["html", "css", "frontend", "responsive", "accessibility", "ui"],
+  "dependencies": [],
+  "tools": [
+    {
+      "name": "generate_component",
+      "description": "Generate HTML/CSS component from specification",
+      "parameters": {
+        "component": {
+          "type": "string",
+          "description": "Component type (button, card, form, navbar, modal, table)",
+          "required": true
+        },
+        "style": {
+          "type": "string",
+          "description": "Style approach (css, scss, tailwind, modules)",
+          "required": false,
+          "default": "css"
+        }
+      }
+    },
+    {
+      "name": "make_responsive",
+      "description": "Add responsive styles to CSS",
+      "parameters": {
+        "css": {
+          "type": "string",
+          "description": "CSS code to make responsive",
+          "required": true
+        },
+        "breakpoints": {
+          "type": "array",
+          "description": "Custom breakpoints (default: mobile, tablet, desktop)",
+          "required": false
+        }
+      }
+    },
+    {
+      "name": "add_accessibility",
+      "description": "Add accessibility attributes to HTML",
+      "parameters": {
+        "html": {
+          "type": "string",
+          "description": "HTML code to make accessible",
+          "required": true
+        }
+      }
+    },
+    {
+      "name": "optimize_css",
+      "description": "Optimize CSS for performance",
+      "parameters": {
+        "css": {
+          "type": "string",
+          "description": "CSS code to optimize",
+          "required": true
+        }
+      }
+    },
+    {
+      "name": "generate_grid",
+      "description": "Generate CSS Grid layout",
+      "parameters": {
+        "columns": {
+          "type": "number",
+          "description": "Number of columns",
+          "required": false,
+          "default": 12
+        },
+        "gap": {
+          "type": "string",
+          "description": "Gap between items",
+          "required": false,
+          "default": "1rem"
+        }
+      }
+    },
+    {
+      "name": "generate_flexbox",
+      "description": "Generate Flexbox layout",
+      "parameters": {
+        "direction": {
+          "type": "string",
+          "description": "Flex direction (row, column)",
+          "required": false,
+          "default": "row"
+        },
+        "justify": {
+          "type": "string",
+          "description": "Justify content",
+          "required": false,
+          "default": "flex-start"
+        },
+        "align": {
+          "type": "string",
+          "description": "Align items",
+          "required": false,
+          "default": "stretch"
+        }
+      }
+    },
+    {
+      "name": "validate_html",
+      "description": "Validate HTML structure",
+      "parameters": {
+        "html": {
+          "type": "string",
+          "description": "HTML code to validate",
+          "required": true
+        }
+      }
+    }
+  ]
+}
