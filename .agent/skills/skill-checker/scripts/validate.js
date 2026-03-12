@@ -16,7 +16,7 @@ class SkillValidator {
     this.results = [];
   }
 
-  async validateAll(verbose = false, onlyWithJson = false) {
+  async validateAll(verbose = false, onlyWithJson = true, checkAll = false) {
     console.log('🔍 Validating all skills...\n');
     
     if (!fs.existsSync(SKILLS_DIR)) {
@@ -28,8 +28,9 @@ class SkillValidator {
       return fs.statSync(path.join(SKILLS_DIR, f)).isDirectory();
     });
 
-    // If onlyWithJson is true, filter to only skills with skill.json
-    if (onlyWithJson) {
+    // Default: only validate skills with skill.json (remote/skills from sync)
+    // Use --all to validate ALL skills (including those without skill.json)
+    if (!checkAll) {
       const skillsWithJson = [];
       for (const skill of skills) {
         const skillJsonPath = path.join(SKILLS_DIR, skill, 'skill.json');
@@ -40,6 +41,10 @@ class SkillValidator {
       skills = skillsWithJson;
       if (verbose) {
         console.log(`📝 Only validating skills with skill.json: ${skills.length} skills\n`);
+      }
+    } else {
+      if (verbose) {
+        console.log(`📝 Validating ALL skills (including without skill.json): ${skills.length} skills\n`);
       }
     }
 
@@ -193,12 +198,12 @@ class SkillValidator {
 // CLI handling
 const args = process.argv.slice(2);
 const verbose = args.includes('--verbose') || args.includes('-v');
-const onlyWithJson = args.includes('--with-json') || args.includes('--only-valid');
+const checkAll = args.includes('--all') || args.includes('-a');
 
 const validator = new SkillValidator();
 
 if (args.includes('validate-all') || args.includes('all')) {
-  validator.validateAll(verbose, onlyWithJson).then(result => {
+  validator.validateAll(verbose, true, checkAll).then(result => {
     if (args.includes('--report')) {
       console.log('\n' + validator.generateMarkdownReport());
     }
@@ -214,15 +219,20 @@ if (args.includes('validate-all') || args.includes('all')) {
 🔍 Skill Checker CLI
 
 Usage:
-  node skill-checker.js <skill-name>          Validate a specific skill
-  node skill-checker.js validate-all          Validate all skills
-  node skill-checker.js validate-all --verbose  Verbose output
-  node skill-checker.js validate-all --with-json  Only validate skills with skill.json
-  node skill-checker.js validate-all --report   Generate markdown report
+  node validate.js <skill-name>           Validate a specific skill
+  node validate.js validate-all           Validate skills with skill.json (default)
+  node validate.js validate-all --verbose  Verbose output
+  node validate.js validate-all --all     Validate ALL skills (including without skill.json)
+  node validate.js validate-all --report  Generate markdown report
+
+Note:
+  By default, only skills with skill.json are validated.
+  This is because most skills come from remote sync and may not have metadata.
+  Use --all to validate everything.
 
 Examples:
-  node skill-checker.js skill-finder
-  node skill-checker.js all -v
-  node skill-checker.js all --with-json
+  node validate.js skill-finder
+  node validate.js all -v
+  node validate.js all --all
   `);
 }

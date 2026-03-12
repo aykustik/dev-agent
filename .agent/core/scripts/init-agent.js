@@ -13,6 +13,16 @@ const CORE_DIR = `${AGENT_DIR}/core`;
 const PROJECT_DIR = `${AGENT_DIR}/project`;
 const SKILLS_DIR = `${AGENT_DIR}/skills`;
 
+const DEFAULT_OWNER = 'aykustik';
+
+function getGitHubOwner() {
+  try {
+    return execSync('gh api user --jq .login', { encoding: 'utf-8' }).trim();
+  } catch {
+    return DEFAULT_OWNER;
+  }
+}
+
 class InitAgent {
   constructor() {
     this.projectName = '';
@@ -306,7 +316,8 @@ See \`guides/getting-started.md\`
     if (fs.existsSync(gitConfigPath)) {
       try {
         const gitConfig = fs.readFileSync(gitConfigPath, 'utf-8');
-        if (gitConfig.includes('aykustik/dev-agent') || gitConfig.includes('aykustik/opencode')) {
+        const owner = getGitHubOwner();
+        if (gitConfig.includes(`${owner}/dev-agent`) || gitConfig.includes(`${owner}/opencode`)) {
           isClonedRepo = true;
           
           // Delete old .git and reinitialize
@@ -359,15 +370,16 @@ See \`guides/getting-started.md\`
     
     // Check if repo already exists
     let repoExists = false;
+    const owner = getGitHubOwner();
     try {
-      execSync(`gh repo view aykustik/${this.projectName}`, { stdio: 'pipe' });
+      execSync(`gh repo view ${owner}/${this.projectName}`, { stdio: 'pipe' });
       repoExists = true;
     } catch (e) {
       // Repo doesn't exist
     }
     
     if (repoExists) {
-      console.log(`  ⚠️  Repository existiert bereits: https://github.com/aykustik/${this.projectName}`);
+      console.log(`  ⚠️  Repository existiert bereits: https://github.com/${owner}/${this.projectName}`);
       console.log('\n  Optionen:');
       console.log('    [1] Neue Repo erstellen (überschreiben)');
       console.log('    [2] Mit bestehender Repo verknüpfen');
@@ -386,7 +398,7 @@ See \`guides/getting-started.md\`
         await this.linkExistingGitHubRepo();
       } else {
         console.log('  ⏭️  Überspringe (standard)');
-        console.log('  Um mit bestehender Repo zu arbeiten: gh repo clone aykustik/' + this.projectName + ' .');
+        console.log(`  Um mit bestehender Repo zu arbeiten: gh repo clone ${owner}/` + this.projectName + ' .');
         console.log('  Um neue zu erstellen: npm run agent:init -- --force');
       }
       console.log('');
@@ -404,10 +416,11 @@ See \`guides/getting-started.md\`
 
   async linkExistingGitHubRepo() {
     console.log('\n🔗 Verknüpfe mit bestehender GitHub Repository...\n');
+    const owner = getGitHubOwner();
     
     try {
       // Add remote if not exists
-      execSync('git remote add origin https://github.com/aykustik/' + this.projectName + '.git', { stdio: 'pipe' });
+      execSync(`git remote add origin https://github.com/${owner}/` + this.projectName + '.git', { stdio: 'pipe' });
       console.log('  ✅ Remote "origin" hinzugefügt');
     } catch (e) {
       console.log('  ℹ️  Remote "origin" existiert bereits');
@@ -444,8 +457,9 @@ See \`guides/getting-started.md\`
     try {
       if (force) {
         console.log('  🗑️  Lösche existierende Repo...');
+        const owner = getGitHubOwner();
         try {
-          execSync(`gh repo delete aykustik/${this.projectName} --yes`, { stdio: 'pipe' });
+          execSync(`gh repo delete ${owner}/${this.projectName} --yes`, { stdio: 'pipe' });
         } catch (e) {
           console.log('  ℹ️  Repo konnte nicht gelöscht werden, versuche neu zu erstellen...');
         }

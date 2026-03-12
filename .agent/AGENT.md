@@ -60,8 +60,7 @@ Vor jeder Task-Ausführung: `workspaceStartupScript` ausführen (z.B. `npm insta
 - Keine Tasks erstellen für:
   - Diskussionen im Chat
   - Fragen, Ideen, Mein Tests oder Experimente ohne festen Outcome
-- Bei Unsungen
-  -icherheit:
+- Bei Unsicherheit:
   - Task zunächst in `Notes` markieren, Status `pending review`
 
 ### GitHub Issues synchronisieren

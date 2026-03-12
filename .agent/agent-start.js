@@ -19,6 +19,21 @@ const PACKAGE_JSON = 'package.json';
 const NODE_MODULES = 'node_modules';
 const GIT_DIR = '.git';
 
+const DEFAULT_OWNER = 'aykustik';
+
+function getGitHubOwner() {
+  try {
+    return execSync('gh api user --jq .login', { encoding: 'utf-8' }).trim();
+  } catch {
+    return DEFAULT_OWNER;
+  }
+}
+
+function isClonedFromTemplate(gitConfig) {
+  const owner = getGitHubOwner();
+  return gitConfig.includes(`${owner}/dev-agent`) || gitConfig.includes(`${owner}/opencode`);
+}
+
 class AgentBootstrap {
   constructor() {
     this.status = {
@@ -56,7 +71,7 @@ class AgentBootstrap {
     try {
       const gitConfig = fs.readFileSync(gitConfigPath, 'utf-8');
       
-      if (gitConfig.includes('aykustik/dev-agent') || gitConfig.includes('aykustik/opencode')) {
+      if (isClonedFromTemplate(gitConfig)) {
         this.isCopiedRepo = true;
       }
     } catch (e) {}

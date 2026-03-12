@@ -9,8 +9,19 @@ const { execSync } = require('child_process');
 const fs = require('fs');
 const path = require('path');
 
-const REPO_OWNER = 'aykustik';
-const REPO_NAME = 'opencode';
+const DEFAULT_REPO_OWNER = 'aykustik';
+const DEFAULT_REPO_NAME = 'opencode';
+
+function getGitHubOwner() {
+  try {
+    return execSync('gh api user --jq .login', { encoding: 'utf-8' }).trim();
+  } catch {
+    return DEFAULT_REPO_OWNER;
+  }
+}
+
+const REPO_OWNER = getGitHubOwner();
+const REPO_NAME = DEFAULT_REPO_NAME;
 const SKILLS_REMOTE_URL = `https://api.github.com/repos/${REPO_OWNER}/${REPO_NAME}/contents/skills`;
 const LOCAL_SKILLS_DIR = '.agent/skills';
 
@@ -148,9 +159,10 @@ class SkillSync {
       // Download each file
       for (const item of items) {
         if (item.type === 'file') {
-          const content = execSync(`gh api "repos/${REPO_OWNER}/${REPO_NAME}/contents/skills/${skillName}/${item.name}" --jq '.content' | base64 -d`, {
+          const encoded = execSync(`gh api "repos/${REPO_OWNER}/${REPO_NAME}/contents/skills/${skillName}/${item.name}" --jq '.content'`, {
             encoding: 'utf-8'
-          });
+          }).trim();
+          const content = Buffer.from(encoded, 'base64').toString('utf-8');
           
           fs.writeFileSync(path.join(localPath, item.name), content);
           console.log(`   📄 ${item.name}`);

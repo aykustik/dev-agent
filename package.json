@@ -5,9 +5,9 @@
   "main": "index.js",
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1",
-    "validate-skills": "node .agent/skills/skill-checker/scripts/validate.js validate-all --with-json",
-    "validate-skills:verbose": "node .agent/skills/skill-checker/scripts/validate.js validate-all --with-json --verbose",
-    "validate-skills:all": "node .agent/skills/skill-checker/scripts/validate.js validate-all",
+    "validate-skills": "node .agent/skills/skill-checker/scripts/validate.js validate-all",
+    "validate-skills:verbose": "node .agent/skills/skill-checker/scripts/validate.js validate-all --verbose",
+    "validate-skills:all": "node .agent/skills/skill-checker/scripts/validate.js validate-all --all",
     "sync-skills": "node .agent/lib/skill-sync.js sync",
     "sync-skills:list": "node .agent/lib/skill-sync.js list",
     "agent": "node .agent/agent-start.js",

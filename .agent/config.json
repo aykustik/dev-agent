@@ -3,5 +3,8 @@
   "defaultBranchPrefix": "ai-task",
   "projectID": null,
   "workspaceStartupScript": "npm install",
-  "autoUpdateTasks": true
+  "autoUpdateTasks": true,
+  "branchPattern": "feature/t-{number}-{slug}",
+  "commitStyle": "conventional",
+  "worktreePath": "./worktrees"
 }
