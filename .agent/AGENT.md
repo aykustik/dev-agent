@@ -154,6 +154,44 @@ gh pr create --title "Task Updates" --body "## Änderungen ..."
 - Branches / Worktrees werden nach Standardpräfix und Pattern organisiert
 - config.json wird automatisch gepflegt
 
+## Skills
+
+Skills sind kontextuelle Wissensmodule unter `.agent/skills/`, die bei Bedarf geladen werden können.
+
+### Skill-Discovery
+
+```bash
+# Alle verfügbaren Skills auflisten
+npm run skills:list
+
+# Skills nach Keywords durchsuchen
+npm run skills:find git
+npm run skills:find "api design"
+```
+
+### Skill-Details
+
+```bash
+# Metadata und Dateien eines Skills anzeigen
+npm run skills:show git-expert
+
+# Vollständigen Skill-Inhalt laden (für Kontext-Injection)
+npm run skills:context git-expert
+```
+
+### Wann Skills nutzen
+
+- **Vor komplexen Tasks**: Prüfe ob ein relevantes Skill existiert
+- **Unsicherheit bei Best Practices**: Skills enthalten domain-spezifische Guidelines
+- **Framework-spezifische Arbeit**: Clerk, WordPress, Vercel, etc. haben eigene Skills
+
+### Skill-Formate
+
+Skills können in verschiedenen Formaten vorliegen:
+- `skill.json` + README.md (KI-Dev-Agent native, vollständig)
+- SKILL.md (opencode/community format, ggf. leer)
+- `[kein Inhalt]` Platzhalter (benötigt `npm run sync-skills`)
+
 ## Handoff-Pflichten
 
 Um Context Rot zu vermeiden und die Zusammenarbeit zwischen Sessions zu gewährleisten:
