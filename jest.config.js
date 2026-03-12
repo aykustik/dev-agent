@@ -1,3 +1,26 @@
+const fs = require('fs');
+const path = require('path');
+
+// Load agent config for coverage excludes
+let coverageExcludes = [
+  '/node_modules/',
+  '/coverage/',
+  '/tests/'
+];
+
+try {
+  const configPath = path.join(__dirname, '.agent', 'config.json');
+  if (fs.existsSync(configPath)) {
+    const agentConfig = JSON.parse(fs.readFileSync(configPath, 'utf-8'));
+    if (agentConfig.coverageExcludes && Array.isArray(agentConfig.coverageExcludes)) {
+      coverageExcludes = agentConfig.coverageExcludes;
+    }
+  }
+} catch (e) {
+  // Fallback to defaults if config can't be loaded
+  console.warn('Could not load .agent/config.json, using default coverage excludes');
+}
+
 module.exports = {
   // Use v8 coverage provider for accurate coverage
   coverageProvider: 'v8',
@@ -6,7 +29,7 @@ module.exports = {
   coverageDirectory: 'coverage',
   
   // Coverage reporters
-  coverageReporters: ['text', 'text-summary', 'json', 'lcov', 'html'],
+  coverageReporters: ['text', 'text-summary', 'json', 'json-summary', 'lcov', 'html'],
   
   // Collect coverage from these files
   collectCoverageFrom: [
@@ -43,10 +66,6 @@ module.exports = {
   // Clear mocks between tests
   clearMocks: true,
   
-  // Coverage excludes - will be extended by config
-  coveragePathIgnorePatterns: [
-    '/node_modules/',
-    '/coverage/',
-    '/tests/'
-  ]
+  // Coverage excludes - loaded from .agent/config.json
+  coveragePathIgnorePatterns: coverageExcludes
 };
