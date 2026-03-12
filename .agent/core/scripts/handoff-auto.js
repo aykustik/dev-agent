@@ -72,13 +72,18 @@ class HandoffAutomator {
     
     if (handoffPath) {
       console.log(`\n✅ Handoff created: ${handoffPath}\n`);
-      
+
       // Update LATEST.md
       this.updateLatest(handoffPath);
-      
+
       // Commit handoff
-      await this.commitHandoff(handoffPath);
-      
+      const committed = await this.commitHandoff(handoffPath);
+
+      // Push handoff if committed
+      if (committed) {
+        await this.pushHandoff(dryRun);
+      }
+
       return { created: true, path: handoffPath, stats: this.stats };
     }
     
@@ -395,9 +400,54 @@ class HandoffAutomator {
       if (hasChanges) {
         execSync('git commit -m "docs: add handoff for session"', { stdio: 'pipe' });
         console.log('✅ Handoff committed');
+        return true;
       }
+      return false;
     } catch (e) {
       console.warn('⚠️ Could not commit handoff:', e.message);
+      return false;
+    }
+  }
+
+  async pushHandoff(dryRun = false) {
+    if (dryRun) {
+      return;
+    }
+
+    try {
+      const currentBranch = this.getCurrentBranch();
+      
+      // Check if there are remotes configured
+      try {
+        execSync('git remote get-url origin', { stdio: 'pipe' });
+      } catch (e) {
+        console.warn('⚠️ No remote configured, skipping push');
+        return;
+      }
+
+      // Try to push
+      try {
+        execSync(`git push origin ${currentBranch}`, { stdio: 'pipe' });
+        console.log('✅ Handoff pushed to origin');
+      } catch (pushError) {
+        // Check if it's an upstream issue
+        const errorMsg = pushError.message || '';
+        
+        if (errorMsg.includes('upstream') || errorMsg.includes('set-upstream') || pushError.status === 128) {
+          try {
+            execSync(`git push --set-upstream origin ${currentBranch}`, { stdio: 'pipe' });
+            console.log('✅ Handoff pushed to origin (upstream set)');
+          } catch (upstreamError) {
+            console.warn('⚠️ Could not push handoff (upstream failed):', upstreamError.message);
+          }
+        } else if (errorMsg.includes('Authentication') || errorMsg.includes('403') || errorMsg.includes('401')) {
+          console.warn('⚠️ Could not push handoff (authentication required)');
+        } else {
+          console.warn('⚠️ Could not push handoff:', pushError.message);
+        }
+      }
+    } catch (e) {
+      console.warn('⚠️ Could not push handoff:', e.message);
     }
   }
 }
@@ -429,7 +479,7 @@ Criteria (OR logic):
   - Open TODOs in tasks.md
   - In-progress tasks in tasks.md
 
-The handoff is automatically committed to git.
+The handoff is automatically committed and pushed to git.
     `);
     process.exit(0);
   }
