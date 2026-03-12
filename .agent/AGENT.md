@@ -196,15 +196,45 @@ Skills können in verschiedenen Formaten vorliegen:
 
 Um Context Rot zu vermeiden und die Zusammenarbeit zwischen Sessions zu gewährleisten:
 
-1. **Handoff-Erstellung**: Vor Session-Ende muss geprüft werden, ob ein Handoff erforderlich ist (siehe `.agent/handoffs/README.md` für Kriterien).
-2. **Pflicht-Handoff bei**: 
-   - Session länger als 30 Minuten
-   - Mehr als 5 Dateien geändert
-   - Offene TODOs oder Blockierer vorhanden
-3. **Ablageort**: Handoffs gehören in `.agent/handoffs/projects/<projekt>/` oder `.agent/handoffs/sessions/` gemäß Struktur.
-4. **Verweis auf Tasks**: Im Handoff müssen relevante Task-Referenzen (#<Issue>) angegeben werden.
-5. **Nach Handoff-Erstellung**: Das Handoff-Dokument muss committet und idealerweise via PR zur Review eingefordert werden.
-6. **Session-Start**: Zu Beginn jeder Session muss das aktuelle LATEST.Handoff des jeweiligen Projekts konsultiert werden.
+### Automatische Handoff-Erstellung (Empfohlen)
+
+Vor **jedem** Session-Ende automatisch ausführen:
+
+```bash
+npm run agent:handoff
+```
+
+Das Script prüft automatisch:
+- **Files Changed** >= 5
+- **Session Duration** >= 30 Minuten
+- **Open TODOs** in tasks.md
+- **In-Progress Tasks** in tasks.md
+
+Wenn ein Kriterium zutrifft → Handoff wird automatisch erstellt und committed.
+
+**Optionen:**
+```bash
+npm run agent:handoff --force    # Immer erstellen
+npm run agent:handoff --dry      # Nur prüfen, nicht erstellen
+```
+
+### Manuelle Handoff-Kriterien
+
+Ein Handoff ist **Pflicht** wenn:
+1. Session dauert länger als 30 Minuten
+2. Mehr als 5 Dateien wurden geändert/erstellt
+3. Es gibt offene TODOs oder ungelöste Probleme am Session-Ende
+4. Vor einem Branch-Wechsel oder bevor man an einem anderen Task weiterarbeitet
+
+Siehe `.agent/handoffs/README.md` für detaillierte Richtlinien.
+
+### Handoff-Workflow
+
+1. **Vor Session-Ende**: `npm run agent:handoff` ausführen
+2. **Ablageort**: Handoffs landen automatisch in `.agent/handoffs/projects/<projekt>/`
+3. **LATEST.md**: Wird automatisch aktualisiert
+4. **Commit**: Handoff wird automatisch committed
+5. **Session-Start**: Zu Beginn jeder Session `LATEST.md` konsultieren
 
 ---
 
