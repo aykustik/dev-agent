@@ -17,6 +17,12 @@ class InitAgent {
   constructor() {
     this.projectName = '';
     this.options = {};
+    this.projectInfo = {
+      description: '',
+      techStack: [],
+      features: [],
+      targetAudience: ''
+    };
   }
 
   async init(projectName, options = {}) {
@@ -57,6 +63,7 @@ class InitAgent {
 
     console.log(`\n🚀 Initializing agent for: ${this.projectName}\n`);
 
+    await this.collectProjectInfo();
     await this.createDirectoryStructure();
     await this.copyCoreFiles();
     
@@ -69,11 +76,104 @@ class InitAgent {
     }
 
     await this.createConfig();
+    await this.generateProjectFiles();
 
     console.log(`\n✅ Agent initialized for ${this.projectName}!\n`);
     console.log('Next steps:');
     console.log('  Review .agent/project/ files');
     console.log('  Customize as needed');
+  }
+
+  async collectProjectInfo() {
+    const args = process.argv.slice(2);
+    
+    // Try to parse from CLI arguments (e.g., --description "My project is...")
+    for (let i = 0; i < args.length; i++) {
+      if (args[i] === '--description' && args[i + 1]) {
+        this.projectInfo.description = args[i + 1];
+      }
+      if (args[i] === '--tech' && args[i + 1]) {
+        this.projectInfo.techStack = args[i + 1].split(',').map(t => t.trim());
+      }
+      if (args[i] === '--features' && args[i + 1]) {
+        this.projectInfo.features = args[i + 1].split(',').map(f => f.trim());
+      }
+      if (args[i] === '--audience' && args[i + 1]) {
+        this.projectInfo.targetAudience = args[i + 1];
+      }
+    }
+    
+    // If no info provided, set defaults
+    if (!this.projectInfo.description) {
+      this.projectInfo.description = `A project called ${this.projectName}`;
+    }
+    if (this.projectInfo.techStack.length === 0) {
+      this.projectInfo.techStack = ['JavaScript'];
+    }
+  }
+
+  async generateProjectFiles() {
+    // Generate project-info.json
+    const projectInfoPath = `${AGENT_DIR}/project-info.json`;
+    fs.writeFileSync(projectInfoPath, JSON.stringify(this.projectInfo, null, 2));
+    console.log(`📄 Created: ${projectInfoPath}`);
+    
+    // Generate README.md with project info
+    await this.generateReadme();
+  }
+
+  async generateReadme() {
+    const readmePath = 'README.md';
+    
+    const techStackStr = this.projectInfo.techStack.join(', ');
+    const featuresStr = this.projectInfo.features.length > 0 
+      ? this.projectInfo.features.map(f => `- ${f}`).join('\n')
+      : '- Feature 1\n- Feature 2';
+    
+    const readmeContent = `# ${this.projectName}
+
+## Description
+
+${this.projectInfo.description}
+
+## Tech Stack
+
+- ${techStackStr}
+
+## Features
+
+${featuresStr}
+
+## Getting Started
+
+\`\`\`bash
+# Install dependencies
+npm install
+
+# Run development
+npm run dev
+
+# Build
+npm run build
+\`\`\`
+
+## Project Structure
+
+\`\`\`
+${this.projectName}/
+├── src/              # Source code
+├── tests/            # Tests
+├── .agent/           # Agent configuration
+└── README.md
+\`\`\`
+
+---
+
+*Generated with KI-Dev-Agent*
+`;
+
+    fs.writeFileSync(readmePath, readmeContent);
+    console.log(`📄 Created: ${readmePath} (project-specific)`);
   }
 
   async createDirectoryStructure() {
