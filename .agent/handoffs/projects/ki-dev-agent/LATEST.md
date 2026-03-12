@@ -1,16 +1,16 @@
 # Latest Handoff
 
 **Project:** ki-dev-agent
-**Link:** [2026-03-12_handoff_ki-dev-agent_-mcp.md](./2026-03-12_handoff_ki-dev-agent_-mcp.md)
-**Updated:** 2026-03-12
+**Link:** [2026-03-12_handoff_pr-review-skill-loader.md](./2026-03-12_handoff_pr-review-skill-loader.md)
+**Updated:** 2026-03-12 18:15
 
 ---
 
 ## Letzte Session
 
 - **Datum:** 2026-03-12
-- **Titel:** Skill Loader Enhancement with .claude-plugin Support
-- **Inhalt:** Multi-format skill loader implementation, 511 restored skill files, 83 skills loaded
+- **Titel:** PR Review & Merge – Skill Loader Enhancement
+- **Inhalt:** Multi-format skill loader merged (81/83 Skills), 511 Dateien restored
 
 ## Quick Links
 
@@ -20,4 +20,4 @@
 
 ---
 
-*Letzte Aktualisierung: 2026-03-12*
+*Letzte Aktualisierung: 2026-03-12 18:15*
