@@ -14,11 +14,16 @@
     "validate-skills:all": "node .agent/skills/skill-checker/scripts/validate.js validate-all --all",
     "sync-skills": "node .agent/lib/skill-sync.js sync",
     "sync-skills:list": "node .agent/lib/skill-sync.js list",
+    "skills:list": "node .agent/core/scripts/skill-loader.js list",
+    "skills:find": "node .agent/core/scripts/skill-loader.js find",
+    "skills:show": "node .agent/core/scripts/skill-loader.js show",
+    "skills:context": "node .agent/core/scripts/skill-loader.js context",
     "agent": "node .agent/agent-start.js",
     "agent:status": "node .agent/agent-start.js status",
     "agent:version": "node .agent/agent-start.js version",
     "agent:versioning": "node .agent/agent-start.js versioning",
     "agent:init": "node .agent/core/scripts/init-agent.js init",
+    "agent:handoff": "node .agent/core/scripts/handoff-auto.js",
     "release": "echo \"To release: git add -A && git commit -m 'chore: bump version' && git tag vVERSION && git push origin main --tags\""
   },
   "keywords": [

@@ -154,19 +154,91 @@ gh pr create --title "Task Updates" --body "## Änderungen ..."
 - Branches / Worktrees werden nach Standardpräfix und Pattern organisiert
 - config.json wird automatisch gepflegt
 
+## Skills
+
+Skills sind kontextuelle Wissensmodule unter `.agent/skills/`, die bei Bedarf geladen werden können.
+
+### Skill-Discovery
+
+```bash
+# Alle verfügbaren Skills auflisten
+npm run skills:list
+
+# Skills nach Keywords durchsuchen
+npm run skills:find git
+npm run skills:find "api design"
+```
+
+### Skill-Details
+
+```bash
+# Metadata und Dateien eines Skills anzeigen
+npm run skills:show git-expert
+
+# Vollständigen Skill-Inhalt laden (für Kontext-Injection)
+npm run skills:context git-expert
+```
+
+### Wann Skills nutzen
+
+- **Vor komplexen Tasks**: Prüfe ob ein relevantes Skill existiert
+- **Unsicherheit bei Best Practices**: Skills enthalten domain-spezifische Guidelines
+- **Framework-spezifische Arbeit**: Clerk, WordPress, Vercel, etc. haben eigene Skills
+
+### Skill-Formate
+
+Skills können in verschiedenen Formaten vorliegen:
+- `skill.json` + README.md (KI-Dev-Agent native, vollständig)
+- `.claude-plugin/plugin.json` + SKILL.md (Claude Desktop Plugins)
+- SKILL.md (opencode/community format)
+- `[kein Inhalt]` Platzhalter (benötigt `npm run sync-skills`)
+
+**Bekannte Edge-Cases:**
+- `accesslint` – MCP Server mit Sub-Skills (.mcp.json Format) → aktuell nicht vom skill-loader unterstützt, bekannter Edge-Case. Falls MCP-Server-Skills später öfter vorkommen, lohnt sich ein eigener Loader-Handler
+
 ## Handoff-Pflichten
 
 Um Context Rot zu vermeiden und die Zusammenarbeit zwischen Sessions zu gewährleisten:
 
-1. **Handoff-Erstellung**: Vor Session-Ende muss geprüft werden, ob ein Handoff erforderlich ist (siehe `.agent/handoffs/README.md` für Kriterien).
-2. **Pflicht-Handoff bei**: 
-   - Session länger als 30 Minuten
-   - Mehr als 5 Dateien geändert
-   - Offene TODOs oder Blockierer vorhanden
-3. **Ablageort**: Handoffs gehören in `.agent/handoffs/projects/<projekt>/` oder `.agent/handoffs/sessions/` gemäß Struktur.
-4. **Verweis auf Tasks**: Im Handoff müssen relevante Task-Referenzen (#<Issue>) angegeben werden.
-5. **Nach Handoff-Erstellung**: Das Handoff-Dokument muss committet und idealerweise via PR zur Review eingefordert werden.
-6. **Session-Start**: Zu Beginn jeder Session muss das aktuelle LATEST.Handoff des jeweiligen Projekts konsultiert werden.
+### Automatische Handoff-Erstellung (Empfohlen)
+
+Vor **jedem** Session-Ende automatisch ausführen:
+
+```bash
+npm run agent:handoff
+```
+
+Das Script prüft automatisch:
+- **Files Changed** >= 5
+- **Session Duration** >= 30 Minuten
+- **Open TODOs** in tasks.md
+- **In-Progress Tasks** in tasks.md
+
+Wenn ein Kriterium zutrifft → Handoff wird automatisch erstellt und committed.
+
+**Optionen:**
+```bash
+npm run agent:handoff --force    # Immer erstellen
+npm run agent:handoff --dry      # Nur prüfen, nicht erstellen
+```
+
+### Manuelle Handoff-Kriterien
+
+Ein Handoff ist **Pflicht** wenn:
+1. Session dauert länger als 30 Minuten
+2. Mehr als 5 Dateien wurden geändert/erstellt
+3. Es gibt offene TODOs oder ungelöste Probleme am Session-Ende
+4. Vor einem Branch-Wechsel oder bevor man an einem anderen Task weiterarbeitet
+
+Siehe `.agent/handoffs/README.md` für detaillierte Richtlinien.
+
+### Handoff-Workflow
+
+1. **Vor Session-Ende**: `npm run agent:handoff` ausführen
+2. **Ablageort**: Handoffs landen automatisch in `.agent/handoffs/projects/<projekt>/`
+3. **LATEST.md**: Wird automatisch aktualisiert
+4. **Commit**: Handoff wird automatisch committed
+5. **Session-Start**: Zu Beginn jeder Session `LATEST.md` konsultieren
 
 ---
 
