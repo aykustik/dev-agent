@@ -84,26 +84,41 @@ Dieses Repository nutzt ein strukturiertes Handoff-System, um Context Rot zu ver
 
 ## Nutzung / Setup
 
-- Dependencies installieren:
-  ```bash
-  npm install
-  ```
+### Quick Start
 
-- Skills synchronisieren:
-  ```bash
-  npm run sync-skills
-  ```
+```bash
+# Agent starten (initialisiert alles automatisch)
+npm run agent
+```
 
-- Skills validieren:
-  ```bash
-  npm run validate-skills
-  ```
+### Einzelne Commands
 
-- KI-Dev-Agent starten:
-  ```bash
-  npm run agent
-  ```
+```bash
+# Dependencies installieren
+npm install
+
+# Skills synchronisieren
+npm run sync-skills
+
+# Skills validieren
+npm run validate-skills
+
+# Agent Status anzeigen
+npm run agent:status
+
+# Projekt manuell initialisieren
+npm run agent:init
+```
+
+### Was passiert beim Start?
+
+Beim Ausführen von `npm run agent` passiert folgendes automatisch:
+
+1. **Prüfe Dependencies** → `npm install` falls `node_modules/` fehlt
+2. **Prüfe Skills** → sync falls veraltet oder fehlend
+3. **Prüfe Projekt-Init** → initialisiere falls nicht vorhanden
+4. **Prüfe Git** → `git init` + initial commit falls nicht vorhanden
 
 ---
 
-**Version:** 1.0.0 | **Letzte Aktualisierung:** 11.03.2026
+**Version:** 1.0.0 | **Letzte Aktualisierung:** 12.03.2026

@@ -9,7 +9,9 @@
     "validate-skills:verbose": "node .agent/skills/skill-checker/scripts/validate.js validate-all --verbose",
     "sync-skills": "node .agent/lib/skill-sync.js sync",
     "sync-skills:list": "node .agent/lib/skill-sync.js list",
-    "agent": "echo \"KI-Dev-Agent starten...\""
+    "agent": "node .agent/agent-start.js",
+    "agent:status": "node .agent/agent-start.js status",
+    "agent:init": "node .agent/core/scripts/init-agent.js init"
   },
   "keywords": ["ai", "agent", "development", "automation"],
   "author": "KI-Dev-Agent Team",
