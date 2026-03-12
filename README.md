@@ -96,30 +96,56 @@ npm run agent
 
 **Wichtig:** Immer `npm run agent` verwenden - NICHT `npm run agent:init`!
 
-**Was passiert:**
-- Der Agent verwendet automatisch den **Ordnernamen** als Projektname
-- Altes Git wird entfernt und neu initialisiert
-- GitHub Repository wird automatisch erstellt und gepusht
-- package.json wird mit dem neuen Namen aktualisiert
-
-### Projektnamen angeben
+### Vollständiges Setup mit Projekt-Infos
 
 ```bash
-# Standard: Ordnername wird verwendet
-npm run agent
-
-# Oder explizit angeben:
-npm run agent -- --name mein-projekt
-npm run agent -- --project-name mein-projekt
-npm run agent -- -n mein-projekt
+# Mit allen Projekt-Details
+npm run agent:init -- \
+  --description "Automatic changelog generator from Git commits" \
+  --tech "Node.js,GitHub API,TypeScript" \
+  --features "Parse commits,Generate Markdown,CLI interface" \
+  --link
 ```
 
-### Quick Start
+### GitHub Repo Optionen (wenn Repo existiert)
+
+| Option | Beschreibung |
+|--------|--------------|
+| `--force` | Neue GitHub Repo erstellen (überschreiben) |
+| `--link` | Mit bestehender GitHub Repo verknüpfen |
+| `--no-github` | GitHub Repo überspringen |
+
+### Alle verfügbaren Optionen
 
 ```bash
-# Agent starten (initialisiert alles automatisch)
-npm run agent
+# Projekt-Infos
+--description "Projektbeschreibung"
+--tech "Node.js,React,TypeScript"
+--features "Feature 1,Feature 2,Feature 3"
+--audience "Zielgruppe"
+
+# GitHub
+--force          # Neue Repo erstellen (überschreiben)
+--link           # Mit bestehender Repo verknüpfen
+--no-github      # GitHub überspringen
+
+# Sonstiges
+--no-git         # Git überspringen
+--no-skills      # Skills-Sync überspringen
 ```
+
+### Was passiert beim Start?
+
+Beim Ausführen von `npm run agent` passiert folgendes automatisch:
+
+1. **Prüfe Dependencies** → `npm install` falls `node_modules/` fehlt
+2. **Prüfe Skills** → sync falls veraltet oder fehlend
+3. **Prüfe Projekt-Init** → initialisiere falls nicht vorhanden
+4. **Prüfe Git** → altes .git entfernen, neu initialisieren
+5. **GitHub Repo** → erstelle neu oder frage nach Optionen
+6. **Projekt-Infos** → zeige Optionen für Beschreibung, Tech-Stack, Features
+
+---
 
 ### Einzelne Commands
 
@@ -139,15 +165,6 @@ npm run agent:status
 # Projekt manuell initialisieren
 npm run agent:init
 ```
-
-### Was passiert beim Start?
-
-Beim Ausführen von `npm run agent` passiert folgendes automatisch:
-
-1. **Prüfe Dependencies** → `npm install` falls `node_modules/` fehlt
-2. **Prüfe Skills** → sync falls veraltet oder fehlend
-3. **Prüfe Projekt-Init** → initialisiere falls nicht vorhanden
-4. **Prüfe Git** → `git init` + initial commit falls nicht vorhanden
 
 ---
 
