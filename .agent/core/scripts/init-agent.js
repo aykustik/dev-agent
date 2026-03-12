@@ -77,11 +77,48 @@ class InitAgent {
 
     await this.createConfig();
     await this.generateProjectFiles();
+    
+    // Ask for project info if not provided
+    await this.askForProjectInfo();
 
     console.log(`\n✅ Agent initialized for ${this.projectName}!\n`);
     console.log('Next steps:');
     console.log('  Review .agent/project/ files');
     console.log('  Customize as needed');
+  }
+
+  async askForProjectInfo() {
+    const args = process.argv.slice(2);
+    
+    // Check if info was already provided via CLI
+    let hasCliInfo = false;
+    for (const arg of args) {
+      if (arg.startsWith('--description') || arg.startsWith('--tech') || arg.startsWith('--features')) {
+        hasCliInfo = true;
+        break;
+      }
+    }
+    
+    if (hasCliInfo) {
+      // CLI info was already processed in collectProjectInfo
+      // Update README with new info
+      await this.generateReadme();
+      return;
+    }
+    
+    console.log('\n📝 Projekt-Informationen:\n');
+    console.log('Bitte beantworte folgende Fragen (oder überspringe mit Enter):\n');
+    
+    // For automated/interactive use, we'll show what info can be provided
+    console.log('  --description "Beschreibung des Projekts"');
+    console.log('  --tech "Node.js,React,TypeScript"');
+    console.log('  --features "Feature 1,Feature 2,Feature 3"');
+    console.log('  --audience "Zielgruppe"\n');
+    
+    console.log('  Beispiel:');
+    console.log('    npm run agent:init -- --description "Mein Projekt" --tech "React,Node.js" --features "Todo-Liste,Auth,API"\n');
+    
+    console.log('Alternativ: Starte den Agent mit detaillierten Infos!\n');
   }
 
   async collectProjectInfo() {
@@ -306,6 +343,25 @@ See \`guides/getting-started.md\`
 
   async askCreateGitHubRepo() {
     console.log('\n🌐 GitHub Repository...\n');
+    
+    // Check if repo already exists
+    try {
+      execSync(`gh repo view aykustik/${this.projectName}`, { stdio: 'pipe' });
+      console.log(`  ⚠️  Repository already exists: https://github.com/aykustik/${this.projectName}`);
+      console.log('  Möchtest du es überschreiben? [j/N]');
+      console.log('  (Überspringen mit Enter)');
+      console.log('');
+      
+      // For automated workflows, skip by default
+      // In interactive mode, user would answer
+      console.log('  ⏭️  Überspringe (Repo existiert bereits)');
+      console.log('  Um manuell zu erstellen: gh repo create ' + this.projectName + ' --private --source=. --push');
+      console.log('');
+      return;
+    } catch (e) {
+      // Repo doesn't exist, proceed with creation
+    }
+    
     console.log('  Erstelle GitHub Repository automatisch...');
     console.log('  (Abbrechen mit Ctrl+C)');
     console.log('');
