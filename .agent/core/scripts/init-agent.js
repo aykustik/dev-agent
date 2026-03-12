@@ -20,7 +20,20 @@ class InitAgent {
   }
 
   async init(projectName, options = {}) {
-    this.projectName = projectName;
+    // Try to get project name from package.json if not provided
+    if (!projectName || projectName === 'my-project') {
+      const pkgPath = 'package.json';
+      if (fs.existsSync(pkgPath)) {
+        try {
+          const pkg = JSON.parse(fs.readFileSync(pkgPath, 'utf-8'));
+          if (pkg.name) {
+            projectName = pkg.name;
+          }
+        } catch (e) {}
+      }
+    }
+
+    this.projectName = projectName || 'new-project';
     this.options = {
       git: true,
       syncSkills: true,
@@ -28,7 +41,7 @@ class InitAgent {
       ...options
     };
 
-    console.log(`\n🚀 Initializing agent for: ${projectName}\n`);
+    console.log(`\n🚀 Initializing agent for: ${this.projectName}\n`);
 
     await this.createDirectoryStructure();
     await this.copyCoreFiles();
@@ -43,9 +56,8 @@ class InitAgent {
 
     await this.createConfig();
 
-    console.log(`\n✅ Agent initialized for ${projectName}!\n`);
+    console.log(`\n✅ Agent initialized for ${this.projectName}!\n`);
     console.log('Next steps:');
-    console.log(`  cd ${projectName}`);
     console.log('  Review .agent/project/ files');
     console.log('  Customize as needed');
   }
@@ -152,7 +164,9 @@ See \`guides/getting-started.md\`
   }
 
   async installSkills() {
-    const skillSyncPath = path.join(__dirname, '..', 'lib', 'skill-sync.js');
+    // __dirname is .agent/core/scripts/
+    // We need .agent/lib/skill-sync.js
+    const skillSyncPath = path.join(__dirname, '..', '..', 'lib', 'skill-sync.js');
     
     if (fs.existsSync(skillSyncPath)) {
       console.log('🔄 Running skill-sync...');
@@ -222,7 +236,7 @@ async function main() {
 
   switch (command) {
     case 'init': {
-      const projectName = args[1] || 'my-project';
+      const projectName = args[1] || null; // Will be read from package.json if null
       const options = {
         git: !args.includes('--no-git'),
         syncSkills: !args.includes('--no-skills')
@@ -239,7 +253,7 @@ async function main() {
 🔧 Init Agent CLI
 
 Commands:
-  init-agent.js init <project-name>    Initialize new agent
+  init-agent.js init [project-name]    Initialize new agent (reads name from package.json if not provided)
   init-agent.js validate               Validate structure
 
 Options:
@@ -247,6 +261,7 @@ Options:
   --no-skills                          Skip skill synchronization
 
 Examples:
+  init-agent.js init
   init-agent.js init my-project
   init-agent.js init my-app --no-git
   init-agent.js validate

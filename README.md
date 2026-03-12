@@ -84,6 +84,24 @@ Dieses Repository nutzt ein strukturiertes Handoff-System, um Context Rot zu ver
 
 ## Nutzung / Setup
 
+### Neues Projekt anlegen
+
+```bash
+# 1. Neuen leeren Ordner erstellen
+mkdir mein-neues-projekt
+cd mein-neues-projekt
+
+# 2. Framework-Dateien kopieren (OHNE .git!)
+# → Am besten: Nur die Projekt-Dateien, NICHT den .git Ordner
+
+# 3. Agent starten
+npm run agent
+```
+
+**Wichtig:**
+- Den `.git` Ordner NICHT mitkopieren - das Framework erstellt ein eigenes Git-Repo
+- Die `package.json` wird automatisch erkannt und der Projektname übernommen
+
 ### Quick Start
 
 ```bash

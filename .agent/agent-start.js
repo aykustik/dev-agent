@@ -28,6 +28,7 @@ class AgentBootstrap {
       git: false
     };
     this.projectName = 'KI-Dev-Agent';
+    this.isCopiedRepo = false;
   }
 
   async run() {
@@ -35,12 +36,29 @@ class AgentBootstrap {
     console.log('='.repeat(40));
 
     await this.checkProjectName();
+    await this.detectIfCopiedRepo();
     await this.checkDependencies();
     await this.syncSkills();
     await this.initProject();
     await this.initGit();
 
     this.printSummary();
+  }
+
+  async detectIfCopiedRepo() {
+    const gitConfigPath = path.join(GIT_DIR, 'config');
+    
+    if (!fs.existsSync(gitConfigPath)) {
+      return;
+    }
+
+    try {
+      const gitConfig = fs.readFileSync(gitConfigPath, 'utf-8');
+      
+      if (gitConfig.includes('aykustik/dev-agent') || gitConfig.includes('aykustik/opencode')) {
+        this.isCopiedRepo = true;
+      }
+    } catch (e) {}
   }
 
   async checkProjectName() {
@@ -129,7 +147,13 @@ class AgentBootstrap {
       }
     }
 
-    console.log('  📥 Initializing project...');
+    // Check if this is a copied repo that hasn't been initialized yet
+    if (this.isCopiedRepo) {
+      console.log('  📥 Initializing copied project...');
+    } else {
+      console.log('  📥 Initializing new project...');
+    }
+    
     try {
       const initScript = path.join(AGENT_DIR, 'core', 'scripts', 'init-agent.js');
       if (fs.existsSync(initScript)) {
@@ -146,7 +170,12 @@ class AgentBootstrap {
     console.log('\n🔧 Checking Git repository...');
     
     if (fs.existsSync(GIT_DIR)) {
-      console.log('  ✅ Git repository already exists');
+      if (this.isCopiedRepo) {
+        console.log('  ⚠️  Copied from dev-agent repo - using existing .git');
+        console.log('     To start fresh: delete .git folder and run again');
+      } else {
+        console.log('  ✅ Git repository already exists');
+      }
       this.status.git = true;
       return;
     }
