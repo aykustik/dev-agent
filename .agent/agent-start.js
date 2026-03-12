@@ -249,8 +249,59 @@ class AgentBootstrap {
       }
       
       this.status.git = true;
+      
+      // Ask if user wants to create GitHub repo
+      await this.askCreateGitHubRepo();
+      
     } catch (error) {
       console.warn('  ⚠️ Could not initialize Git:', error.message);
+    }
+  }
+
+  async askCreateGitHubRepo() {
+    // Only ask for new projects (copied repos), not existing ones
+    if (!this.isCopiedRepo) {
+      return;
+    }
+    
+    console.log('\n🌐 GitHub Repository...\n');
+    console.log('  Möchtest du eine GitHub Repository erstellen?');
+    console.log('  Ja:      gh repo create ' + this.projectName + ' --private --source=. --push');
+    console.log('  Nein:    Überspringen');
+    console.log('\n  (Um GitHub Repo später zu erstellen: gh repo create ' + this.projectName + ')');
+    console.log('');
+  }
+
+  async createGitHubRepo() {
+    console.log('\n🌐 Creating GitHub repository...\n');
+    
+    try {
+      // Check if gh is available
+      execSync('gh --version', { stdio: 'pipe' });
+    } catch (error) {
+      console.warn('  ⚠️  GitHub CLI (gh) not found');
+      console.log('     Install it from: https://cli.github.com/');
+      return false;
+    }
+    
+    try {
+      // Check if already authenticated
+      execSync('gh auth status', { stdio: 'pipe' });
+    } catch (error) {
+      console.warn('  ⚠️  Not authenticated with GitHub');
+      console.log('     Run: gh auth login');
+      return false;
+    }
+    
+    try {
+      // Create the repo
+      execSync(`gh repo create ${this.projectName} --private --source=. --push`, { stdio: 'inherit' });
+      console.log('  ✅ GitHub repository created and pushed!');
+      this.status.github = true;
+      return true;
+    } catch (error) {
+      console.warn('  ⚠️  Could not create GitHub repository:', error.message);
+      return false;
     }
   }
 
