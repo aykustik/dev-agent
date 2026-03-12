@@ -211,6 +211,61 @@ class AgentBootstrap {
 
     console.log('');
   }
+
+  getVersioningRules() {
+    const projectVersioning = path.join(AGENT_DIR, 'project', 'versioning.md');
+    const coreVersioning = path.join(AGENT_DIR, 'core', 'versioning.md');
+
+    if (fs.existsSync(projectVersioning)) {
+      const content = fs.readFileSync(projectVersioning, 'utf-8');
+      if (!content.includes('PLATZHALTER') && !content.includes('Template')) {
+        return { source: 'project', path: projectVersioning, content };
+      }
+    }
+
+    if (fs.existsSync(coreVersioning)) {
+      return { source: 'core', path: coreVersioning, content: fs.readFileSync(coreVersioning, 'utf-8') };
+    }
+
+    return null;
+  }
+
+  showVersioning() {
+    const versioning = this.getVersioningRules();
+    
+    if (!versioning) {
+      console.log('\n❌ No versioning rules found\n');
+      return;
+    }
+
+    console.log(`\n📋 Versioning Guidelines (${versioning.source})\n`);
+    console.log(`Source: ${versioning.path}\n`);
+    
+    const lines = versioning.content.split('\n');
+    let inCode = false;
+    for (const line of lines.slice(0, 50)) {
+      if (line.startsWith('```')) inCode = !inCode;
+      if (!inCode && (line.startsWith('#') || line.startsWith('##') || line.startsWith('###'))) {
+        console.log('\n' + line);
+      } else if (!inCode && (line.startsWith('|') || line.trim().startsWith('-'))) {
+        console.log(line);
+      } else if (!line.startsWith('>') && !line.startsWith('*') && line.trim()) {
+        console.log(line);
+      }
+    }
+    console.log('\n  (showing first 50 lines, see full file for details)\n');
+  }
+
+  showVersion() {
+    if (fs.existsSync(PACKAGE_JSON)) {
+      try {
+        const pkg = JSON.parse(fs.readFileSync(PACKAGE_JSON, 'utf-8'));
+        console.log(`\n📦 ${pkg.version}\n`);
+        return;
+      } catch (e) {}
+    }
+    console.log('\n❌ No package.json found\n');
+  }
 }
 
 const bootstrap = new AgentBootstrap();
@@ -223,6 +278,14 @@ async function main() {
     case 'status':
     case 's':
       await bootstrap.showStatus();
+      break;
+    case 'version':
+    case 'v':
+      bootstrap.showVersion();
+      break;
+    case 'versioning':
+    case 'vg':
+      bootstrap.showVersioning();
       break;
     default:
       await bootstrap.run();

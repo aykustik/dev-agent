@@ -80,6 +80,16 @@ System-Konfiguration und Default-Prompts.
 - defaults.json - Standard-Konfiguration
 - prompts/ - Default Prompts (Platzhalter)
 
+### versioning.md
+Versionierungsrichtlinien nach Semantic Versioning.
+
+**Verwendung:**
+```bash
+npm run agent:versioning  # Zeige Versioning-Regeln
+npm run agent:version     # Zeige aktuelle Version
+npm run release           # Starte Release-Prozess
+```
+
 ---
 
 ## Für /project/ Überschreibungen

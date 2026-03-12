@@ -11,7 +11,10 @@
     "sync-skills:list": "node .agent/lib/skill-sync.js list",
     "agent": "node .agent/agent-start.js",
     "agent:status": "node .agent/agent-start.js status",
-    "agent:init": "node .agent/core/scripts/init-agent.js init"
+    "agent:version": "node .agent/agent-start.js version",
+    "agent:versioning": "node .agent/agent-start.js versioning",
+    "agent:init": "node .agent/core/scripts/init-agent.js init",
+    "release": "echo \"To release: git add -A && git commit -m 'chore: bump version' && git tag vVERSION && git push origin main --tags\""
   },
   "keywords": ["ai", "agent", "development", "automation"],
   "author": "KI-Dev-Agent Team",
