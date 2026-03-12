@@ -194,7 +194,7 @@ Skills können in verschiedenen Formaten vorliegen:
 - `[kein Inhalt]` Platzhalter (benötigt `npm run sync-skills`)
 
 **Bekannte Edge-Cases:**
-- `accesslint` – MCP Server mit Sub-Skills (nicht direkt ladbar)
+- `accesslint` – MCP Server mit Sub-Skills (.mcp.json Format) → aktuell nicht vom skill-loader unterstützt, bekannter Edge-Case. Falls MCP-Server-Skills später öfter vorkommen, lohnt sich ein eigener Loader-Handler
 
 ## Handoff-Pflichten
 
