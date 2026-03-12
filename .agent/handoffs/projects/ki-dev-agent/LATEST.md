@@ -1,16 +1,16 @@
 # Latest Handoff
 
 **Project:** ki-dev-agent
-**Link:** [2026-03-12_handoff_pr-review-skill-loader.md](./2026-03-12_handoff_pr-review-skill-loader.md)
-**Updated:** 2026-03-12 18:15
+**Link:** [2026-03-12_handoff_ki-dev-agent_handoff-auto.md](./2026-03-12_handoff_ki-dev-agent_handoff-auto.md)
+**Updated:** 2026-03-12
 
 ---
 
 ## Letzte Session
 
 - **Datum:** 2026-03-12
-- **Titel:** PR Review & Merge – Skill Loader Enhancement
-- **Inhalt:** Multi-format skill loader merged (81/83 Skills), 511 Dateien restored
+- **Titel:** handoff auto
+- **Inhalt:** 37 files changed, 0 open TODOs
 
 ## Quick Links
 
@@ -20,4 +20,4 @@
 
 ---
 
-*Letzte Aktualisierung: 2026-03-12 18:15*
+*Letzte Aktualisierung: 2026-03-12*

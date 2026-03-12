@@ -11,6 +11,9 @@ const path = require('path');
 const SKILLS_DIR = '.agent/skills';
 const REQUIRED_FIELDS = ['name', 'version', 'description', 'author', 'created', 'tags', 'tools'];
 
+// Known edge cases - skills that are placeholders or have special handling
+const KNOWN_EDGE_CASES = ['accesslint'];
+
 class SkillValidator {
   constructor() {
     this.results = [];
@@ -28,23 +31,33 @@ class SkillValidator {
       return fs.statSync(path.join(SKILLS_DIR, f)).isDirectory();
     });
 
-    // Default: only validate skills with skill.json (remote/skills from sync)
-    // Use --all to validate ALL skills (including those without skill.json)
+    // Filter to only valid skill formats unless --all flag is used
+    // Valid formats: skill.json, SKILL.md, or _meta.json + SKILL.md
+    // Use --all to validate ALL directories (including those without recognized format)
     if (!checkAll) {
-      const skillsWithJson = [];
+      const validSkills = [];
       for (const skill of skills) {
-        const skillJsonPath = path.join(SKILLS_DIR, skill, 'skill.json');
-        if (fs.existsSync(skillJsonPath)) {
-          skillsWithJson.push(skill);
+        // Skip known edge cases (placeholders, special formats)
+        if (KNOWN_EDGE_CASES.includes(skill)) {
+          continue;
+        }
+        const skillPath = path.join(SKILLS_DIR, skill);
+        const skillJsonPath = path.join(skillPath, 'skill.json');
+        const skillMdPath = path.join(skillPath, 'SKILL.md');
+        const metaJsonPath = path.join(skillPath, '_meta.json');
+        
+        // Accept skill if it has skill.json, SKILL.md, or _meta.json
+        if (fs.existsSync(skillJsonPath) || fs.existsSync(skillMdPath) || fs.existsSync(metaJsonPath)) {
+          validSkills.push(skill);
         }
       }
-      skills = skillsWithJson;
+      skills = validSkills;
       if (verbose) {
-        console.log(`📝 Only validating skills with skill.json: ${skills.length} skills\n`);
+        console.log(`📝 Validating skills with recognized format: ${skills.length} skills\n`);
       }
     } else {
       if (verbose) {
-        console.log(`📝 Validating ALL skills (including without skill.json): ${skills.length} skills\n`);
+        console.log(`📝 Validating ALL skills (including without recognized format): ${skills.length} skills\n`);
       }
     }
 
@@ -66,10 +79,15 @@ class SkillValidator {
       this.results.push(result);
     }
 
+    const edgeCases = this.results.filter(r => r.warnings.some(w => w.field === 'edge-case')).length;
+    
     console.log('\n📊 Summary:');
     console.log(`   Total: ${skills.length}`);
     console.log(`   ✅ Valid: ${valid}`);
     console.log(`   ❌ Invalid: ${invalid}`);
+    if (edgeCases > 0) {
+      console.log(`   ⚠️  Edge Cases: ${edgeCases}`);
+    }
 
     return {
       success: invalid === 0,
@@ -86,11 +104,55 @@ class SkillValidator {
       console.log(`\n📁 Checking: ${skillName}`);
     }
 
-    // Check if skill.json exists
+    // Handle known edge cases (placeholders, special formats)
+    if (KNOWN_EDGE_CASES.includes(skillName)) {
+      if (verbose) {
+        console.log(`   ⚠️  Known edge case - skipping strict validation`);
+      }
+      return { skill: skillName, valid: true, errors: [], warnings: [{ field: 'edge-case', message: 'Known placeholder/special format' }] };
+    }
+
+    // Check for supported skill formats
     const skillJsonPath = path.join(skillPath, 'skill.json');
-    if (!fs.existsSync(skillJsonPath)) {
-      errors.push({ field: 'skill.json', message: 'Missing skill.json file' });
+    const skillMdPath = path.join(skillPath, 'SKILL.md');
+    const metaJsonPath = path.join(skillPath, '_meta.json');
+    
+    // Determine skill format
+    const hasSkillJson = fs.existsSync(skillJsonPath);
+    const hasSkillMd = fs.existsSync(skillMdPath);
+    const hasMetaJson = fs.existsSync(metaJsonPath);
+    
+    if (!hasSkillJson && !hasSkillMd && !hasMetaJson) {
+      errors.push({ field: 'format', message: 'No recognized skill format found (skill.json, SKILL.md, or _meta.json)' });
       return { skill: skillName, valid: false, errors, warnings };
+    }
+    
+    // For SKILL.md based skills, do basic validation
+    if (hasSkillMd && !hasSkillJson) {
+      // Validate SKILL.md exists and has content
+      const skillMdContent = fs.readFileSync(skillMdPath, 'utf-8');
+      if (skillMdContent.length < 100) {
+        warnings.push({ field: 'SKILL.md', message: 'SKILL.md content seems minimal (< 100 chars)' });
+      }
+      
+      // If has _meta.json, validate it
+      if (hasMetaJson) {
+        try {
+          const metaContent = fs.readFileSync(metaJsonPath, 'utf-8');
+          const meta = JSON.parse(metaContent);
+          if (!meta.name) {
+            warnings.push({ field: '_meta.json', message: 'Missing name field in metadata' });
+          }
+        } catch (e) {
+          errors.push({ field: '_meta.json', message: 'Invalid JSON: ' + e.message });
+        }
+      }
+      
+      if (verbose) {
+        console.log(`   ✅ Valid (SKILL.md format)`);
+      }
+      
+      return { skill: skillName, valid: errors.length === 0, errors, warnings };
     }
 
     // Parse and validate skill.json

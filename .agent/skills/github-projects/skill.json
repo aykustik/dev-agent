@@ -3,6 +3,48 @@
   "version": "2.0.0",
   "description": "GitHub Projects Management via CLI (gh project + gh-pm extension)",
   "author": "Aykut",
+  "created": "2026-03-11",
+  "tags": ["github", "projects", "cli", "project-management"],
+  "tools": [
+    {
+      "name": "list_projects",
+      "description": "List GitHub projects in a repository or organization",
+      "parameters": {
+        "type": "object",
+        "properties": {
+          "owner": { "type": "string", "description": "Repository or organization owner" },
+          "repo": { "type": "string", "description": "Repository name (optional for org-level projects)" }
+        },
+        "required": ["owner"]
+      }
+    },
+    {
+      "name": "view_project",
+      "description": "View details of a specific GitHub project",
+      "parameters": {
+        "type": "object",
+        "properties": {
+          "project_number": { "type": "number", "description": "Project number" },
+          "owner": { "type": "string", "description": "Repository or organization owner" }
+        },
+        "required": ["project_number", "owner"]
+      }
+    },
+    {
+      "name": "create_item",
+      "description": "Create a new item (issue/PR) in a GitHub project",
+      "parameters": {
+        "type": "object",
+        "properties": {
+          "project_number": { "type": "number", "description": "Project number" },
+          "owner": { "type": "string", "description": "Repository or organization owner" },
+          "title": { "type": "string", "description": "Item title" },
+          "body": { "type": "string", "description": "Item description" }
+        },
+        "required": ["project_number", "owner", "title"]
+      }
+    }
+  ],
   "entrypoint": "SKILL.md",
   "env": [
     "GH_TOKEN"
