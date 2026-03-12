@@ -54,3 +54,32 @@ jobs:
           for json in .agent/skills/*/skill.json; do
             node -e "JSON.parse(require('fs').readFileSync('$json'))" || exit 1
           done
+
+  quality-gates:
+    name: Quality Gates
+    runs-on: ubuntu-latest
+    needs: [validate, lint]
+
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v4
+        with:
+          fetch-depth: 2  # Need history for coverage delta
+
+      - name: Setup Node.js
+        uses: actions/setup-node@v4
+        with:
+          node-version: '20'
+          cache: 'npm'
+
+      - name: Install dependencies
+        run: npm install
+
+      - name: Run tests with coverage
+        run: npm run test:coverage
+
+      - name: Check coverage delta
+        run: npm run coverage:delta -- --grace
+
+      - name: Check threshold reductions
+        run: npm run coverage:threshold

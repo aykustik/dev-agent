@@ -4,7 +4,11 @@
   "description": "Framework für KI-gestützte Entwicklungsassistenten",
   "main": "index.js",
   "scripts": {
-    "test": "echo \"Error: no test specified\" && exit 1",
+    "test": "jest",
+    "test:coverage": "jest --coverage",
+    "test:watch": "jest --watch",
+    "coverage:delta": "node .agent/core/scripts/coverage-delta.js",
+    "coverage:threshold": "node .agent/core/scripts/threshold-check.js",
     "validate-skills": "node .agent/skills/skill-checker/scripts/validate.js validate-all",
     "validate-skills:verbose": "node .agent/skills/skill-checker/scripts/validate.js validate-all --verbose",
     "validate-skills:all": "node .agent/skills/skill-checker/scripts/validate.js validate-all --all",
@@ -17,7 +21,15 @@
     "agent:init": "node .agent/core/scripts/init-agent.js init",
     "release": "echo \"To release: git add -A && git commit -m 'chore: bump version' && git tag vVERSION && git push origin main --tags\""
   },
-  "keywords": ["ai", "agent", "development", "automation"],
+  "keywords": [
+    "ai",
+    "agent",
+    "development",
+    "automation"
+  ],
   "author": "KI-Dev-Agent Team",
-  "license": "MIT"
+  "license": "MIT",
+  "devDependencies": {
+    "jest": "^30.3.0"
+  }
 }
