@@ -31,7 +31,7 @@ Alle 17 Tasks abgeschlossen ✅
 | 16 | Documentation / Markdown | ✅ |
 | 17 | GitHub Projects | ✅ |
 
-## Ver verfügbare Skills
+## Verfügbare Skills
 
 Das Projekt enthält **78 Skills** aus dem KI-Dev-Agent System:
 

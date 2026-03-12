@@ -142,9 +142,6 @@ class SkillSync {
         fs.mkdirSync(LOCAL_SKILLS_DIR, { recursive: true });
       }
       
-      // Download skill from repo using gh
-      const skillUrl = `https://raw.githubusercontent.com/${REPO_OWNER}/${REPO_NAME}/main/skills/${skillName}`;
-      
       // Try to get the skill.json to verify it exists
       const checkResult = execSync(`gh api "repos/${REPO_OWNER}/${REPO_NAME}/contents/skills/${skillName}"`, {
         encoding: 'utf-8',

@@ -428,7 +428,7 @@ See \`guides/getting-started.md\`
     
     try {
       // Set upstream
-      execSync('git push -u origin master', { stdio: 'inherit' });
+      execSync('git push -u origin main', { stdio: 'inherit' });
       console.log('  ✅ Mit bestehender Repo verknüpft und gepusht!');
     } catch (error) {
       console.warn('  ⚠️  Push fehlgeschlagen:', error.message);
@@ -494,21 +494,37 @@ See \`guides/getting-started.md\`
   async createConfig() {
     const configPath = `${AGENT_DIR}/config.json`;
     
+    // If config already exists and has the proper fields from AGENT.md, keep it
+    if (fs.existsSync(configPath)) {
+      try {
+        const existing = JSON.parse(fs.readFileSync(configPath, 'utf-8'));
+        // Check if it has the AGENT.md required fields
+        if (existing.branchPattern && existing.commitStyle) {
+          // Update only core fields, keep AGENT.md fields
+          existing.project = this.projectName;
+          existing.initialized = new Date().toISOString();
+          fs.writeFileSync(configPath, JSON.stringify(existing, null, 2));
+          console.log(`📄 Updated: ${configPath} (kept AGENT.md fields)`);
+          return;
+        }
+      } catch (e) {
+        // continue to create new
+      }
+    }
+    
+    // Create new config with all required fields
     const config = {
       project: this.projectName,
       version: '1.0.0',
       initialized: new Date().toISOString(),
-      structure: {
-        core: `${CORE_DIR}`,
-        project: `${PROJECT_DIR}`,
-        skills: `${SKILLS_DIR}`,
-        handoffs: `${AGENT_DIR}/handoffs`
-      },
-      scripts: {
-        'skill-loader': `${CORE_DIR}/scripts/skill-loader.js`,
-        'task-runner': `${CORE_DIR}/scripts/task-runner.js`,
-        'handoff-gen': `${CORE_DIR}/scripts/handoff-gen.js`
-      }
+      githubTokenEnv: 'GH_TOKEN',
+      defaultBranchPrefix: 'ai-task',
+      projectID: null,
+      workspaceStartupScript: 'npm install',
+      autoUpdateTasks: true,
+      branchPattern: 'feature/t-{number}-{slug}',
+      commitStyle: 'conventional',
+      worktreePath: './worktrees'
     };
 
     fs.writeFileSync(configPath, JSON.stringify(config, null, 2));
