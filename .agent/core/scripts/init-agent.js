@@ -342,35 +342,87 @@ See \`guides/getting-started.md\`
   }
 
   async askCreateGitHubRepo() {
+    const args = process.argv.slice(2);
+    
+    // Check for CLI override
+    const forceNew = args.includes('--force') || args.includes('-f');
+    const skipGitHub = args.includes('--no-github') || args.includes('--skip-github');
+    const linkOnly = args.includes('--link');
+    
+    if (skipGitHub) {
+      console.log('\n🌐 GitHub Repository:');
+      console.log('  ⏭️  Übersprungen (--no-github flag)');
+      return;
+    }
+    
     console.log('\n🌐 GitHub Repository...\n');
     
     // Check if repo already exists
+    let repoExists = false;
     try {
       execSync(`gh repo view aykustik/${this.projectName}`, { stdio: 'pipe' });
-      console.log(`  ⚠️  Repository already exists: https://github.com/aykustik/${this.projectName}`);
-      console.log('  Möchtest du es überschreiben? [j/N]');
-      console.log('  (Überspringen mit Enter)');
-      console.log('');
-      
-      // For automated workflows, skip by default
-      // In interactive mode, user would answer
-      console.log('  ⏭️  Überspringe (Repo existiert bereits)');
-      console.log('  Um manuell zu erstellen: gh repo create ' + this.projectName + ' --private --source=. --push');
-      console.log('');
-      return;
+      repoExists = true;
     } catch (e) {
-      // Repo doesn't exist, proceed with creation
+      // Repo doesn't exist
     }
     
-    console.log('  Erstelle GitHub Repository automatisch...');
+    if (repoExists) {
+      console.log(`  ⚠️  Repository existiert bereits: https://github.com/aykustik/${this.projectName}`);
+      console.log('\n  Optionen:');
+      console.log('    [1] Neue Repo erstellen (überschreiben)');
+      console.log('    [2] Mit bestehender Repo verknüpfen');
+      console.log('    [3] Überspringen');
+      console.log('\n  CLI-Optionen:');
+      console.log('    --force         → Neue Repo erstellen');
+      console.log('    --link          → Mit bestehender verknüpfen');
+      console.log('    --no-github     → Überspringen');
+      console.log('');
+      
+      if (forceNew) {
+        console.log('  → Erstelle neue Repo (--force)');
+        await this.createGitHubRepo(true);
+      } else if (linkOnly) {
+        console.log('  → Verknüpfe mit bestehender Repo (--link)');
+        await this.linkExistingGitHubRepo();
+      } else {
+        console.log('  ⏭️  Überspringe (standard)');
+        console.log('  Um mit bestehender Repo zu arbeiten: gh repo clone aykustik/' + this.projectName + ' .');
+        console.log('  Um neue zu erstellen: npm run agent:init -- --force');
+      }
+      console.log('');
+      return;
+    }
+    
+    // Repo doesn't exist - create new
+    console.log('  Erstelle neue GitHub Repository...');
     console.log('  (Abbrechen mit Ctrl+C)');
     console.log('');
     
-    // Auto-create for cloned repos
+    // Auto-create for new repos
     await this.createGitHubRepo();
   }
 
-  async createGitHubRepo() {
+  async linkExistingGitHubRepo() {
+    console.log('\n🔗 Verknüpfe mit bestehender GitHub Repository...\n');
+    
+    try {
+      // Add remote if not exists
+      execSync('git remote add origin https://github.com/aykustik/' + this.projectName + '.git', { stdio: 'pipe' });
+      console.log('  ✅ Remote "origin" hinzugefügt');
+    } catch (e) {
+      console.log('  ℹ️  Remote "origin" existiert bereits');
+    }
+    
+    try {
+      // Set upstream
+      execSync('git push -u origin master', { stdio: 'inherit' });
+      console.log('  ✅ Mit bestehender Repo verknüpft und gepusht!');
+    } catch (error) {
+      console.warn('  ⚠️  Push fehlgeschlagen:', error.message);
+    }
+  }
+
+  async createGitHubRepo(force = false) {
     console.log('\n🌐 Creating GitHub repository...\n');
     
     try {
@@ -390,6 +442,15 @@ See \`guides/getting-started.md\`
     }
     
     try {
+      if (force) {
+        console.log('  🗑️  Lösche existierende Repo...');
+        try {
+          execSync(`gh repo delete aykustik/${this.projectName} --yes`, { stdio: 'pipe' });
+        } catch (e) {
+          console.log('  ℹ️  Repo konnte nicht gelöscht werden, versuche neu zu erstellen...');
+        }
+      }
+      
       execSync(`gh repo create ${this.projectName} --private --source=. --push`, { stdio: 'inherit' });
       console.log('✅ GitHub repository created and pushed!');
       return true;
@@ -495,11 +556,20 @@ Commands:
 Options:
   --no-git                             Skip git initialization
   --no-skills                          Skip skill synchronization
+  --force                              Force create new GitHub repo (overwrite existing)
+  --link                               Link with existing GitHub repo
+  --no-github                          Skip GitHub repo creation
+  --description "text"                 Project description
+  --tech "Node.js,React"              Tech stack (comma-separated)
+  --features "f1,f2,f3"                Features (comma-separated)
+  --audience "text"                    Target audience
 
 Examples:
   init-agent.js init
   init-agent.js init my-project
-  init-agent.js init my-app --no-git
+  init-agent.js init my-app --force
+  init-agent.js init --link
+  init-agent.js init --description "My app" --tech "React,Node.js" --features "Auth,API,UI"
   init-agent.js validate
       `);
   }
