@@ -1,7 +1,7 @@
 # Handoff: handoff auto
 
 **Projekt:** ki-dev-agent
-**Datum:** 2026-03-12 18:11
+**Datum:** 2026-03-12 18:13
 **Autor:** AI Agent
 **Branch:** fix/validate-skills
 **Task-Referenz:** N/A
@@ -25,7 +25,7 @@
 | Datei | Änderungstyp | Beschreibung |
 |-------|--------------|--------------|
 | `.agent/core/scripts/handoff-auto.js` | modified | Updated during session |
-| `.agent/handoffs/projects/ki-dev-agent/LATEST.md` | modified | Updated during session |
+| `.agent/skills/github-projects/skill.json` | modified | Updated during session |
 | `.agent/skills/skill-checker/scripts/validate.js` | modified | Updated during session |
 | `coverage/base.css` | modified | Updated during session |
 | `coverage/block-navigation.js` | modified | Updated during session |
@@ -156,4 +156,4 @@ Branch: fix/validate-skills
 
 ---
 
-*Automatisch generiert am: 2026-03-12 18:11*
+*Automatisch generiert am: 2026-03-12 18:13*
