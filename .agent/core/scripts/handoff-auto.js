@@ -389,7 +389,7 @@ class HandoffAutomator {
       const latestPath = path.join(path.dirname(handoffPath), 'LATEST.md');
       const relativeLatest = path.relative(process.cwd(), latestPath);
       
-      execSync('git add "${relativePath}" "${relativeLatest}"', { stdio: 'pipe' });
+      execSync(`git add "${relativePath}" "${relativeLatest}"`, { stdio: 'pipe' });
       
       const hasChanges = execSync('git status --porcelain', { encoding: 'utf-8' }).trim();
       if (hasChanges) {
