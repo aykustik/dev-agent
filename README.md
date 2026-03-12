@@ -56,9 +56,9 @@ Das Projekt enthält **78 Skills** aus dem KI-Dev-Agent System:
 
 ## Notes / Ideen
 
-- Idee: API Refactoring prüfen (Status: pending review)
+- Idee: API Refactoring prüfen (Status: ✅ erledigt)
 - Idee: CI/CD Pipeline einrichten (Status: ✅ erledigt)
-- Idee: Mehr Beispiele für Skills (Status: pending)
+- Idee: Mehr Beispiele für Skills (Status: ✅ erledigt)
 
 ## Branches / Worktrees
 
