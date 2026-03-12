@@ -87,20 +87,30 @@ Dieses Repository nutzt ein strukturiertes Handoff-System, um Context Rot zu ver
 ### Neues Projekt anlegen
 
 ```bash
-# 1. Neuen leeren Ordner erstellen
-mkdir mein-neues-projekt
-cd mein-neues-projekt
+# 1. Repo klonen oder Ordner erstellen
+gh repo clone aykustik/dev-agent .
+# ODER: mkdir mein-projekt && cd mein-projekt
 
-# 2. Framework-Dateien kopieren (OHNE .git!)
-# → Am besten: Nur die Projekt-Dateien, NICHT den .git Ordner
-
-# 3. Agent starten
+# 2. Agent starten
 npm run agent
 ```
 
-**Wichtig:**
-- Den `.git` Ordner NICHT mitkopieren - das Framework erstellt ein eigenes Git-Repo
-- Die `package.json` wird automatisch erkannt und der Projektname übernommen
+**Was passiert:**
+- Der Agent verwendet automatisch den **Ordnernamen** als Projektname
+- Git wird automatisch neu initialisiert
+- package.json wird mit dem neuen Namen akturiert
+
+### Projektnamen angeben
+
+```bash
+# Standard: Ordnername wird verwendet
+npm run agent
+
+# Oder explizit angeben:
+npm run agent -- --name mein-projekt
+npm run agent -- --project-name mein-projekt
+npm run agent -- -n mein-projekt
+```
 
 ### Quick Start
 

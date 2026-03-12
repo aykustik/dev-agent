@@ -62,6 +62,29 @@ class AgentBootstrap {
   }
 
   async checkProjectName() {
+    // Priority 1: CLI argument (--name or --project-name)
+    const args = process.argv.slice(2);
+    for (let i = 0; i < args.length; i++) {
+      if (args[i] === '--name' || args[i] === '--project-name' || args[i] === '-n') {
+        if (args[i + 1]) {
+          this.projectName = args[i + 1];
+          console.log(`  📝 Using project name from CLI: ${this.projectName}`);
+          await this.updatePackageJsonName(this.projectName);
+          return;
+        }
+      }
+    }
+    
+    // Priority 2: Current directory name (best for new projects)
+    const dirName = path.basename(process.cwd());
+    if (dirName && dirName !== '.' && dirName !== 'node_modules') {
+      this.projectName = dirName;
+      console.log(`  📝 Using directory name as project name: ${this.projectName}`);
+      await this.updatePackageJsonName(this.projectName);
+      return;
+    }
+    
+    // Priority 3: package.json (fallback for existing projects)
     if (fs.existsSync(PACKAGE_JSON)) {
       try {
         const pkg = JSON.parse(fs.readFileSync(PACKAGE_JSON, 'utf-8'));
@@ -69,6 +92,27 @@ class AgentBootstrap {
       } catch (e) {
         // ignore
       }
+    }
+  }
+
+  async updatePackageJsonName(newName) {
+    if (!fs.existsSync(PACKAGE_JSON)) {
+      return;
+    }
+    
+    try {
+      const pkg = JSON.parse(fs.readFileSync(PACKAGE_JSON, 'utf-8'));
+      
+      // Only update if different and not the default framework name
+      if (pkg.name !== newName && pkg.name !== 'ki-dev-agent') {
+        return; // Keep existing custom name
+      }
+      
+      pkg.name = newName;
+      fs.writeFileSync(PACKAGE_JSON, JSON.stringify(pkg, null, 2));
+      console.log(`  📝 Updated package.json with project name: ${newName}`);
+    } catch (e) {
+      // ignore
     }
   }
 

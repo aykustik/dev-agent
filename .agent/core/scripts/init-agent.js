@@ -20,20 +20,34 @@ class InitAgent {
   }
 
   async init(projectName, options = {}) {
-    // Try to get project name from package.json if not provided
-    if (!projectName || projectName === 'my-project') {
+    // Priority 1: CLI argument provided
+    // Priority 2: Current directory name
+    // Priority 3: package.json
+    
+    let finalName = projectName;
+    
+    if (!finalName || finalName === 'my-project') {
+      // Try directory name first
+      const dirName = path.basename(process.cwd());
+      if (dirName && dirName !== '.' && dirName !== 'node_modules') {
+        finalName = dirName;
+      }
+    }
+    
+    if (!finalName || finalName === 'my-project') {
+      // Fallback to package.json
       const pkgPath = 'package.json';
       if (fs.existsSync(pkgPath)) {
         try {
           const pkg = JSON.parse(fs.readFileSync(pkgPath, 'utf-8'));
-          if (pkg.name) {
-            projectName = pkg.name;
+          if (pkg.name && pkg.name !== 'ki-dev-agent') {
+            finalName = pkg.name;
           }
         } catch (e) {}
       }
     }
 
-    this.projectName = projectName || 'new-project';
+    this.projectName = finalName || 'new-project';
     this.options = {
       git: true,
       syncSkills: true,
