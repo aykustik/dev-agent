@@ -162,6 +162,28 @@ See \`guides/getting-started.md\`
   }
 
   async setupGit() {
+    // Check if this is a cloned repo
+    const gitConfigPath = '.git/config';
+    let isClonedRepo = false;
+    
+    if (fs.existsSync(gitConfigPath)) {
+      try {
+        const gitConfig = fs.readFileSync(gitConfigPath, 'utf-8');
+        if (gitConfig.includes('aykustik/dev-agent') || gitConfig.includes('aykustik/opencode')) {
+          isClonedRepo = true;
+          
+          // Delete old .git and reinitialize
+          console.log('🔄 Detected cloned repo - resetting Git...');
+          try {
+            execSync('rm -rf .git', { stdio: 'pipe' });
+            console.log('🗑️  Old .git removed');
+          } catch (error) {
+            console.warn('⚠️  Could not remove old .git:', error.message);
+          }
+        }
+      } catch (e) {}
+    }
+    
     try {
       execSync('git status', { stdio: 'pipe' });
       console.log('📂 Git repository already exists');
@@ -171,9 +193,53 @@ See \`guides/getting-started.md\`
         execSync('git add .', { stdio: 'pipe' });
         execSync('git commit -m "Initial commit: AI Agent structure"', { stdio: 'pipe' });
         console.log('✅ Git initialized with initial commit');
+        
+        // If this was a cloned repo, ask about GitHub
+        if (isClonedRepo) {
+          await this.askCreateGitHubRepo();
+        }
       } catch (error) {
         console.warn('⚠️ Git init failed:', error.message);
       }
+    }
+  }
+
+  async askCreateGitHubRepo() {
+    console.log('\n🌐 GitHub Repository...\n');
+    console.log('  Erstelle GitHub Repository automatisch...');
+    console.log('  (Abbrechen mit Ctrl+C)');
+    console.log('');
+    
+    // Auto-create for cloned repos
+    await this.createGitHubRepo();
+  }
+
+  async createGitHubRepo() {
+    console.log('\n🌐 Creating GitHub repository...\n');
+    
+    try {
+      execSync('gh --version', { stdio: 'pipe' });
+    } catch (error) {
+      console.warn('⚠️  GitHub CLI (gh) not found');
+      console.log('     Install it from: https://cli.github.com/');
+      return false;
+    }
+    
+    try {
+      execSync('gh auth status', { stdio: 'pipe' });
+    } catch (error) {
+      console.warn('⚠️  Not authenticated with GitHub');
+      console.log('     Run: gh auth login');
+      return false;
+    }
+    
+    try {
+      execSync(`gh repo create ${this.projectName} --private --source=. --push`, { stdio: 'inherit' });
+      console.log('✅ GitHub repository created and pushed!');
+      return true;
+    } catch (error) {
+      console.warn('⚠️  Could not create GitHub repository:', error.message);
+      return false;
     }
   }
 
