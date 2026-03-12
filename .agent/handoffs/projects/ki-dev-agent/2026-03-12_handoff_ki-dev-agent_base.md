@@ -3,8 +3,8 @@
 **Projekt:** ki-dev-agent
 **Datum:** 2026-03-12 18:19
 **Autor:** AI Agent
-**Branch:** fix/handoff-auto-push
-**Task-Referenz:** N/A
+**Branch:** main
+**Task-Referenz:** #4
 **Status:** abgeschlossen
 
 ---
@@ -106,7 +106,7 @@
 
 ### Erste Schritte
 1. Lies zuerst: `handoffs/projects/<projekt>/<latest-handoff>.md`
-2. Checke Branch: `fix/handoff-auto-push`
+2. Checke Branch: `main`
 3. Führe aus: `npm install`
 
 ### Zu vermeiden
@@ -143,7 +143,7 @@
 
 Datum: 2026-03-12
 Handoff: ./2026-03-12_handoff_ki-dev-agent_base.md
-Branch: fix/handoff-auto-push
+Branch: main
 
 ## Übernommene TODOs
 - TODO 1
