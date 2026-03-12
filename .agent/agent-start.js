@@ -171,13 +171,23 @@ class AgentBootstrap {
     
     if (fs.existsSync(GIT_DIR)) {
       if (this.isCopiedRepo) {
-        console.log('  ⚠️  Copied from dev-agent repo - using existing .git');
-        console.log('     To start fresh: delete .git folder and run again');
+        console.log('  🔄 Detected cloned repo - resetting Git...');
+        
+        // Delete the old .git folder and reinitialize
+        try {
+          execSync('rm -rf .git', { stdio: 'pipe' });
+          console.log('  🗑️  Old .git removed');
+        } catch (error) {
+          console.warn('  ⚠️  Could not remove old .git:', error.message);
+          console.log('     Please delete .git manually and run again');
+          this.status.git = false;
+          return;
+        }
       } else {
         console.log('  ✅ Git repository already exists');
+        this.status.git = true;
+        return;
       }
-      this.status.git = true;
-      return;
     }
 
     console.log('  📥 Initializing Git repository...');
