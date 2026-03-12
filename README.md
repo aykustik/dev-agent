@@ -87,18 +87,20 @@ Dieses Repository nutzt ein strukturiertes Handoff-System, um Context Rot zu ver
 ### Neues Projekt anlegen
 
 ```bash
-# 1. Repo klonen oder Ordner erstellen
+# 1. Repo klonen
 gh repo clone aykustik/dev-agent .
-# ODER: mkdir mein-projekt && cd mein-projekt
 
-# 2. Agent starten
+# 2. Agent starten (NICHT agent:init!)
 npm run agent
 ```
 
+**Wichtig:** Immer `npm run agent` verwenden - NICHT `npm run agent:init`!
+
 **Was passiert:**
 - Der Agent verwendet automatisch den **Ordnernamen** als Projektname
-- Git wird automatisch neu initialisiert
-- package.json wird mit dem neuen Namen akturiert
+- Altes Git wird entfernt und neu initialisiert
+- GitHub Repository wird automatisch erstellt und gepusht
+- package.json wird mit dem neuen Namen aktualisiert
 
 ### Projektnamen angeben
 
