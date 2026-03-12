@@ -189,8 +189,12 @@ npm run skills:context git-expert
 
 Skills können in verschiedenen Formaten vorliegen:
 - `skill.json` + README.md (KI-Dev-Agent native, vollständig)
-- SKILL.md (opencode/community format, ggf. leer)
+- `.claude-plugin/plugin.json` + SKILL.md (Claude Desktop Plugins)
+- SKILL.md (opencode/community format)
 - `[kein Inhalt]` Platzhalter (benötigt `npm run sync-skills`)
+
+**Bekannte Edge-Cases:**
+- `accesslint` – MCP Server mit Sub-Skills (nicht direkt ladbar)
 
 ## Handoff-Pflichten
 

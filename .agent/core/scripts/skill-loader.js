@@ -55,6 +55,7 @@ class SkillLoader {
     const skillMdPath = path.join(skillPath, 'SKILL.md');
     const metaJsonPath = path.join(skillPath, '_meta.json');
     const readmePath = path.join(skillPath, 'README.md');
+    const claudePluginPath = path.join(skillPath, '.claude-plugin', 'plugin.json');
 
     let skillData = null;
     let source = null;
@@ -75,23 +76,47 @@ class SkillLoader {
       }
     }
 
+    // Try .claude-plugin/plugin.json format (Claude Desktop plugins)
+    if (!skillData && fs.existsSync(claudePluginPath)) {
+      try {
+        const pluginContent = fs.readFileSync(claudePluginPath, 'utf-8');
+        if (pluginContent.trim().length > 0) {
+          const pluginData = JSON.parse(pluginContent);
+          skillData = {
+            name: pluginData.name || name,
+            description: pluginData.description || '',
+            keywords: pluginData.keywords || [],
+            tags: pluginData.tags || pluginData.keywords || [],
+            tools: []
+          };
+          source = 'plugin.json';
+          hasContent = true;
+        }
+      } catch (error) {
+        console.warn(`⚠️  Invalid plugin.json for: ${name}`);
+      }
+    }
+
     // Try SKILL.md format (opencode format)
-    if (!skillData && fs.existsSync(skillMdPath)) {
+    if (fs.existsSync(skillMdPath)) {
       try {
         const mdContent = fs.readFileSync(skillMdPath, 'utf-8');
         if (mdContent.trim().length > 0) {
-          // Parse first line as name, rest as description
-          const lines = mdContent.split('\n').filter(l => l.trim());
-          const title = lines[0]?.replace(/^#\s*/, '') || name;
-          const description = lines.slice(1).join('\n').trim().substring(0, 200);
-          
-          skillData = {
-            name: title,
-            description: description || 'Skill documentation available',
-            keywords: [],
-            tags: []
-          };
-          source = 'SKILL.md';
+          // If no skillData yet, extract from SKILL.md
+          if (!skillData) {
+            // Parse first line as name, rest as description
+            const lines = mdContent.split('\n').filter(l => l.trim());
+            const title = lines[0]?.replace(/^#\s*/, '') || name;
+            const description = lines.slice(1).join('\n').trim().substring(0, 200);
+            
+            skillData = {
+              name: title,
+              description: description || 'Skill documentation available',
+              keywords: [],
+              tags: []
+            };
+            source = source || 'SKILL.md';
+          }
           content = mdContent;
           hasContent = true;
         }
