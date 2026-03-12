@@ -1,0 +1,59 @@
+name: CI
+
+on:
+  push:
+    branches: [main]
+  pull_request:
+    branches: [main]
+
+jobs:
+  validate:
+    name: Validate Skills
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v4
+
+      - name: Setup Node.js
+        uses: actions/setup-node@v4
+        with:
+          node-version: '20'
+          cache: 'npm'
+
+      - name: Install dependencies
+        run: npm install
+
+      - name: Validate all skills
+        run: npm run validate-skills
+
+      - name: List skills
+        run: npm run sync-skills:list
+
+  lint:
+    name: Lint Scripts
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v4
+
+      - name: Setup Node.js
+        uses: actions/setup-node@v4
+        with:
+          node-version: '20'
+
+      - name: Install dependencies
+        run: npm install
+
+      - name: Check JavaScript syntax
+        run: |
+          for file in .agent/core/scripts/*.js .agent/lib/*.js; do
+            node --check "$file" || exit 1
+          done
+
+      - name: Check skill.json files
+        run: |
+          for json in .agent/skills/*/skill.json; do
+            node -e "JSON.parse(require('fs').readFileSync('$json'))" || exit 1
+          done

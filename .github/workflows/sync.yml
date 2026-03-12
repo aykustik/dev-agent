@@ -1,0 +1,61 @@
+name: Sync Skills
+
+on:
+  schedule:
+    - cron: '0 6 * * 0'  # Every Sunday at 6 AM
+  workflow_dispatch:
+
+jobs:
+  sync:
+    name: Sync Skills from Repo
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v4
+        with:
+          ref: main
+          fetch-depth: 0
+
+      - name: Setup Node.js
+        uses: actions/setup-node@v4
+        with:
+          node-version: '20'
+          cache: 'npm'
+
+      - name: Install dependencies
+        run: npm install
+
+      - name: Check GitHub CLI
+        run: |
+          if ! command -v gh &> /dev/null; then
+            echo "GitHub CLI not installed"
+            exit 1
+          fi
+          gh --version
+
+      - name: Check auth
+        run: gh auth status
+
+      - name: Sync skills (dry-run)
+        run: node .agent/lib/skill-sync.js sync --dry-run
+        env:
+          GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+
+      - name: Create pull request
+        if: success()
+        run: |
+          node .agent/lib/skill-sync.js sync --dry-run > sync-output.txt
+          if grep -q "Missing skills:" sync-output.txt; then
+            echo "Changes detected, creating PR"
+            git checkout -b chore/skill-sync-$(date +%Y%m%d)
+            node .agent/lib/skill-sync.js sync
+            git add -A
+            git commit -m "chore: sync skills from central repo"
+            git push -u origin chore/skill-sync-$(date +%Y%m%d) --force
+            gh pr create --title "Skill Sync $(date +%Y-%m-%d)" --body "Automated skill sync from central repo"
+          else
+            echo "No changes to sync"
+          fi
+        env:
+          GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}

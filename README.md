@@ -1,5 +1,8 @@
 # KI-Dev-Agent
 
+[![CI](https://github.com/aykustik/dev-agent/actions/workflows/ci.yml/badge.svg)](https://github.com/aykustik/dev-agent/actions/workflows/ci.yml)
+[![Sync Skills](https://github.com/aykustik/dev-agent/actions/workflows/sync.yml/badge.svg)](https://github.com/aykustik/dev-agent/actions/workflows/sync.yml)
+
 ## Beschreibung
 
 KI-Dev-Agent ist ein Framework für KI-gestützte Entwicklungsassistenten, die eigenständig Software-Engineering-Aufgaben durch standardisierte Workflows, Task-Management und Git-Operationen erledigen können.
@@ -54,7 +57,7 @@ Das Projekt enthält **78 Skills** aus dem KI-Dev-Agent System:
 ## Notes / Ideen
 
 - Idee: API Refactoring prüfen (Status: pending review)
-- Idee: CI/CD Pipeline einrichten (Status: pending)
+- Idee: CI/CD Pipeline einrichten (Status: ✅ erledigt)
 - Idee: Mehr Beispiele für Skills (Status: pending)
 
 ## Branches / Worktrees
