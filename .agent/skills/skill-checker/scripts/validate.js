@@ -16,7 +16,7 @@ class SkillValidator {
     this.results = [];
   }
 
-  async validateAll(verbose = false) {
+  async validateAll(verbose = false, onlyWithJson = false) {
     console.log('🔍 Validating all skills...\n');
     
     if (!fs.existsSync(SKILLS_DIR)) {
@@ -24,9 +24,24 @@ class SkillValidator {
       return { success: false, error: 'SKILLS_DIR_NOT_FOUND' };
     }
 
-    const skills = fs.readdirSync(SKILLS_DIR).filter(f => {
+    let skills = fs.readdirSync(SKILLS_DIR).filter(f => {
       return fs.statSync(path.join(SKILLS_DIR, f)).isDirectory();
     });
+
+    // If onlyWithJson is true, filter to only skills with skill.json
+    if (onlyWithJson) {
+      const skillsWithJson = [];
+      for (const skill of skills) {
+        const skillJsonPath = path.join(SKILLS_DIR, skill, 'skill.json');
+        if (fs.existsSync(skillJsonPath)) {
+          skillsWithJson.push(skill);
+        }
+      }
+      skills = skillsWithJson;
+      if (verbose) {
+        console.log(`📝 Only validating skills with skill.json: ${skills.length} skills\n`);
+      }
+    }
 
     if (skills.length === 0) {
       console.log('⚠️  No skills found in', SKILLS_DIR);
@@ -178,11 +193,12 @@ class SkillValidator {
 // CLI handling
 const args = process.argv.slice(2);
 const verbose = args.includes('--verbose') || args.includes('-v');
+const onlyWithJson = args.includes('--with-json') || args.includes('--only-valid');
 
 const validator = new SkillValidator();
 
 if (args.includes('validate-all') || args.includes('all')) {
-  validator.validateAll(verbose).then(result => {
+  validator.validateAll(verbose, onlyWithJson).then(result => {
     if (args.includes('--report')) {
       console.log('\n' + validator.generateMarkdownReport());
     }
@@ -201,10 +217,12 @@ Usage:
   node skill-checker.js <skill-name>          Validate a specific skill
   node skill-checker.js validate-all          Validate all skills
   node skill-checker.js validate-all --verbose  Verbose output
+  node skill-checker.js validate-all --with-json  Only validate skills with skill.json
   node skill-checker.js validate-all --report   Generate markdown report
 
 Examples:
   node skill-checker.js skill-finder
   node skill-checker.js all -v
+  node skill-checker.js all --with-json
   `);
 }

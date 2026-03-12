@@ -1,0 +1,20 @@
+{
+  "name": "GitHub Projects",
+  "version": "1.0.0",
+  "description": "GitHub Projects automation - manage projects, issues, and PRs via GitHub CLI",
+  "author": "KI-Dev-Agent Team",
+  "created": "2026-03-11",
+  "tags": ["github", "automation", "cli", "projects"],
+  "tools": [
+    {
+      "name": "gh-projects-list",
+      "description": "List all GitHub projects",
+      "command": "gh project list"
+    },
+    {
+      "name": "gh-issues-create",
+      "description": "Create a new issue",
+      "command": "gh issue create"
+    }
+  ]
+}
