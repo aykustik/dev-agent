@@ -1,7 +1,7 @@
 # Latest Handoff
 
 **Project:** ki-dev-agent
-**Link:** [2026-03-12_handoff_ki-dev-agent_handoff-auto.md](./2026-03-12_handoff_ki-dev-agent_handoff-auto.md)
+**Link:** [2026-03-12_handoff_ki-dev-agent_base.md](./2026-03-12_handoff_ki-dev-agent_base.md)
 **Updated:** 2026-03-12
 
 ---
@@ -9,8 +9,8 @@
 ## Letzte Session
 
 - **Datum:** 2026-03-12
-- **Titel:** handoff auto
-- **Inhalt:** 37 files changed, 0 open TODOs
+- **Titel:** base
+- **Inhalt:** 33 files changed, 0 open TODOs
 
 ## Quick Links
 
