@@ -196,6 +196,31 @@ Skills können in verschiedenen Formaten vorliegen:
 **Bekannte Edge-Cases:**
 - `accesslint` – MCP Server mit Sub-Skills (.mcp.json Format) → aktuell nicht vom skill-loader unterstützt, bekannter Edge-Case. Falls MCP-Server-Skills später öfter vorkommen, lohnt sich ein eigener Loader-Handler
 
+## Development Practices
+
+Verpflichtende Praktiken für die Entwicklung:
+
+### Defense-in-Depth
+Beim Schreiben neuer Funktionen:
+- **Immer** `defense-in-depth` Skill anwenden
+- Mehrere Verteidigungslinien gegen Bugs implementieren
+- Validierung auf jeder Schicht (Input, Processing, Output)
+- Siehe: `npm run skills:context defense-in-depth`
+
+### Systematic Debugging
+Wenn ein Bug auftritt:
+- **Immer** `systematic-debugging` Framework verwenden
+- Vier Phasen: Reproduction → Isolation → Fix → Verification
+- Keine Sprünge zu Lösungen vor Root-Cause-Analyse
+- Siehe: `npm run skills:context systematic-debugging`
+
+### Root-Cause Tracing
+Für komplexe Bugs:
+- `root-cause-tracing` mit `find-polluter.sh` nutzen
+- Systematisch den originalen Trigger finden (nicht nur Symptom)
+- Call Stack rückwärts analysieren
+- Siehe: `npm run skills:context root-cause-tracing`
+
 ## Handoff-Pflichten
 
 Um Context Rot zu vermeiden und die Zusammenarbeit zwischen Sessions zu gewährleisten:
@@ -239,6 +264,25 @@ Siehe `.agent/handoffs/README.md` für detaillierte Richtlinien.
 3. **LATEST.md**: Wird automatisch aktualisiert
 4. **Commit**: Handoff wird automatisch committed
 5. **Session-Start**: Zu Beginn jeder Session `LATEST.md` konsultieren
+
+### Verification-before-Completion
+
+Bevor ein Task als **done** markiert wird:
+
+- **Immer** `verification-before-completion` Skill anwenden
+- Verifikations-Commands ausführen (Tests, Lint, Type-Check)
+- Output bestätigen (keine Warnungen, keine Fehler)
+- Coverage-Delta prüfen: `npm run coverage:delta`
+- Threshold-Check: `npm run coverage:threshold`
+
+**Verifikations-Checkliste:**
+```bash
+npm test                    # Alle Tests passing?
+npm run coverage:delta      # Keine Coverage-Regression?
+npm run coverage:threshold  # Keine Threshold-Reduktion?
+```
+
+Siehe: `npm run skills:context verification-before-completion`
 
 ---
 
